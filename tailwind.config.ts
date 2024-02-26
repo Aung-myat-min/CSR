@@ -13,6 +13,7 @@ const config: Config = {
         background: "#FFFFFF",
         content: "#000000",
         primary: "#E5E5E5",
+        secondary: "#121212",
       },
     },
   },
