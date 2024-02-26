@@ -40,7 +40,7 @@ export default function App() {
   const startSlider = () => {
     slideInterval = setInterval(() => {
       handleOnNextClick();
-    }, 3000);
+    }, 5000);
   };
 
   const pauseSlider = () => {
@@ -64,7 +64,7 @@ export default function App() {
   return (
     <div
       ref={slideRef}
-      className="max-w-[1400px] h-[780px] w-full m-auto py-16 px-4 relative group"
+      className="max-w-[1400px] h-[780px] w-full m-auto py-16 relative group"
     >
       <div
         style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
