@@ -2,8 +2,9 @@
 import ThemeSwitch from "./themes/ThemeSwitch"; // Adjust the path based on your project structure
 import Image from "next/image";
 import Link from "next/link";
-import logo from "@/public/images/blue_csr_logo.png";
-import { useState } from "react";
+import whiteLogo from "@/public/images/blue_csr_logo.png";
+import blackLogo from "@/public/images/white_csr_logo.png";
+import { useEffect, useState } from "react";
 import { RiMenu4Line } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
 
@@ -15,12 +16,19 @@ export default function Home() {
     { name: "Contact", link: "/contact" },
   ];
   let [open, setOpen] = useState(false);
+  let [light, setLightMode] = useState(true);
+  const toggleMode = () => {
+    setLightMode(!light);
+  };
+  useEffect(() => {
+    toggleMode();
+  }, []);
   return (
     <nav className="fixed w-full top-0 left-0">
       <div className="flex justify-between items-center w-11/12 lg:h-20 md:h-16 h-14  rounded-xl m-auto mt-5 bg-primary dark:bg-secondary relative">
         <Image
           className="ms-5"
-          src={logo}
+          src={light ? whiteLogo : blackLogo}
           width={80}
           height={80}
           sizes="80x80"
@@ -54,7 +62,10 @@ export default function Home() {
           >
             {open ? <RxCross2 /> : <RiMenu4Line />}
           </div>
-          <div className="flex items-center me-5 md:ml-8 font-semibold px-3 py-1 rounded duration-500 md:static cursor-pointer">
+          <div
+            className="flex items-center me-5 md:ml-8 font-semibold px-3 py-1 rounded duration-500 md:static cursor-pointer"
+            onClick={toggleMode}
+          >
             <ThemeSwitch />
           </div>
         </div>
