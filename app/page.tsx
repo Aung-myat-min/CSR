@@ -5,7 +5,7 @@ import logo from "@/public/images/blue_csr_logo.png";
 
 export default function Home() {
   return (
-    <div className="flex justify-between items-center w-11/12 h-20  rounded-xl m-auto mt-5 bg-primary dark:bg-secondary">
+    <nav className="flex justify-between items-center w-11/12 h-20  rounded-xl m-auto mt-5 bg-primary dark:bg-secondary">
       <Image
         className="ms-5"
         src={logo}
@@ -33,6 +33,6 @@ export default function Home() {
       <div className="flex items-center me-5">
         <ThemeSwitch />
       </div>
-    </div>
+    </nav>
   );
 }
