@@ -8,8 +8,11 @@ import { useEffect, useState } from "react";
 import { RiMenu4Line } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
 import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
 
 export default function NavigationBar() {
+  const currentRoute = usePathname();
+
   let Links = [
     { name: "Home", link: "/" },
     { name: "Events", link: "/events" },
@@ -18,16 +21,25 @@ export default function NavigationBar() {
   ];
 
   let [open, setOpen] = useState(false);
+  const { resolvedTheme, setTheme, theme } = useTheme();
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    if (theme !== undefined) {
+      setIsLoading(false);
+    }
+  }, [theme]);
 
-  let [lightMode, setLightMode] = useState(true);
-  const { resolvedTheme, setTheme } = useTheme();
+  if (isLoading) {
+    return <div>Loading...</div>; // Or any loading indicator
+  }
 
+  const logo = resolvedTheme === "light" ? whiteLogo : blackLogo;
   return (
     <nav className="fixed w-full top-0 left-0">
       <div className="flex justify-between items-center w-11/12 lg:h-20 md:h-16 h-14  rounded-xl m-auto mt-5 bg-primary dark:bg-secondary relative">
         <Image
           className="lg:ms-5 md:ms-3 my-2 lg:w-24 lg:h-24 md:w-20 md:h-20 w-16 h-16 cursor-pointer"
-          src={resolvedTheme === "light" ? whiteLogo : blackLogo}
+          src={logo}
           alt="Loading Light/Dark Toggle"
           priority={false}
           title="Loading Light/Dark Toggle"
@@ -44,7 +56,11 @@ export default function NavigationBar() {
             <li key={index} className="md:ml-8 md:my-0 my-7 font-semibold">
               <Link
                 href={link.link}
-                className="opacity-50 hover:opacity-100 duration-500"
+                className={`${
+                  currentRoute === link.link
+                    ? "opacity-100"
+                    : "opacity-50 hover:opacity-100 duration-500"
+                }`}
               >
                 {link.name}
               </Link>

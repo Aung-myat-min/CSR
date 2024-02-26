@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en" className={inter.className} suppressHydrationWarning>
       <body className="bg-background text-content dark:bg-content dark:text-background">
         <Providers>
-          <NavigationBar></NavigationBar>
+          <NavigationBar />
           {children}
         </Providers>
       </body>
