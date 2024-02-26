@@ -15,23 +15,25 @@ export default function Home() {
     { name: "About", link: "/about" },
     { name: "Contact", link: "/contact" },
   ];
+
   let [open, setOpen] = useState(false);
-  let [light, setLightMode] = useState(true);
+
+  let [lightMode, setLightMode] = useState(true);
+
   const toggleMode = () => {
-    setLightMode(!light);
+    setLightMode(!lightMode);
   };
+
   useEffect(() => {
     toggleMode();
   }, []);
+
   return (
     <nav className="fixed w-full top-0 left-0">
       <div className="flex justify-between items-center w-11/12 lg:h-20 md:h-16 h-14  rounded-xl m-auto mt-5 bg-primary dark:bg-secondary relative">
         <Image
-          className="ms-5"
-          src={light ? whiteLogo : blackLogo}
-          width={80}
-          height={80}
-          sizes="80x80"
+          className="lg:ms-5 md:ms-3 my-2 lg:w-24 lg:h-24 md:w-20 md:h-20 w-16 h-16 cursor-pointer"
+          src={lightMode ? whiteLogo : blackLogo}
           alt="Loading Light/Dark Toggle"
           priority={false}
           title="Loading Light/Dark Toggle"
@@ -45,25 +47,27 @@ export default function Home() {
           }`}
         >
           {Links.map((link, index) => (
-            <li className="md:ml-8 md:my-0 my-7 font-semibold " key={index}>
+            <li key={index} className="md:ml-8 md:my-0 my-7 font-semibold">
               <Link
                 href={link.link}
-                className="hover:text-blue-400 duration-500"
+                className="opacity-50 hover:opacity-100 duration-500"
               >
                 {link.name}
               </Link>
             </li>
           ))}
         </ul>
+
         <div className="flex">
           <div
             onClick={() => setOpen(!open)}
-            className=" items-center flex cursor-pointer md:hidden"
+            className="items-center flex cursor-pointer md:hidden"
           >
             {open ? <RxCross2 /> : <RiMenu4Line />}
           </div>
+
           <div
-            className="flex items-center me-5 md:ml-8 font-semibold px-3 py-1 rounded duration-500 md:static cursor-pointer"
+            className="flex items-center lg:me-5 md:me-3 md:ml-8 font-semibold px-3 py-1 rounded duration-500 md:static cursor-pointer"
             onClick={toggleMode}
           >
             <ThemeSwitch />
