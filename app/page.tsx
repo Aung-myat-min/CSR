@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
+import NavigationBar from "@/components/Nav";
 
 let count = 0;
 let slideInterval: ReturnType<typeof setInterval>;
@@ -62,41 +63,44 @@ export default function App() {
   };
 
   return (
-    <div
-      ref={slideRef}
-      className="max-w-[1400px] h-[780px] w-full m-auto py-16 relative group"
-    >
+    <div>
+      <NavigationBar />
       <div
-        style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
-        className="w-full h-full rounded-2xl bg-center bg-cover duration-500"
-      ></div>
+        ref={slideRef}
+        className="max-w-[1920px] lg:h-[550px] md:h-[450px] xl:h-[600px] h-[280px] w-11/12 m-auto lg:mt-28 md:mt-24 xl:mt-30 mt-20  relative group"
+      >
+        <div
+          style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
+          className="w-full h-full rounded-2xl bg-center bg-cover duration-500"
+        ></div>
 
-      <div className="absolute w-full top-1/2 transform -translate-y-1/2 px-3 flex justify-between items-center">
-        <button
-          className="bg-black text-white p-1 rounded-full bg-opacity-50 cursor-pointer hover:bg-opacity-100 transition"
-          onClick={handleOnPrevClick}
-        >
-          <BsChevronCompactLeft size={30} />
-        </button>
-        <button
-          className="bg-black text-white p-1 rounded-full bg-opacity-50 cursor-pointer hover:bg-opacity-100 transition"
-          onClick={handleOnNextClick}
-        >
-          <BsChevronCompactRight size={30} />
-        </button>
-      </div>
-      <div className="flex top-4 justify-center py-2">
-        {slides.map((_, slideIndex) => (
-          <div
-            key={slideIndex}
-            onClick={() => goToSlide(slideIndex)}
-            className={`text-2xl cursor-pointer ${
-              slideIndex === currentIndex ? "text-red-500" : "text-gray-500"
-            }`}
+        <div className="absolute w-full top-1/2 transform -translate-y-1/2 px-3 flex justify-between items-center">
+          <button
+            className="bg-black text-white p-1 rounded-full bg-opacity-50 cursor-pointer hover:bg-opacity-100 transition"
+            onClick={handleOnPrevClick}
           >
-            <RxDotFilled />
-          </div>
-        ))}
+            <BsChevronCompactLeft size={30} />
+          </button>
+          <button
+            className="bg-black text-white p-1 rounded-full bg-opacity-50 cursor-pointer hover:bg-opacity-100 transition"
+            onClick={handleOnNextClick}
+          >
+            <BsChevronCompactRight size={30} />
+          </button>
+        </div>
+        <div className="flex top-4 justify-center mt-1">
+          {slides.map((_, slideIndex) => (
+            <div
+              key={slideIndex}
+              onClick={() => goToSlide(slideIndex)}
+              className={`text-2xl cursor-pointer ${
+                slideIndex === currentIndex ? "text-red-500" : "text-gray-500"
+              }`}
+            >
+              <RxDotFilled />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
