@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import { dateFormatChanger } from "../funcitons/dateFormatter";
 import { splitStringIntoTwoArrays } from "../funcitons/splitStringIntoTwoArrays";
+import { combineArraysToString } from "../funcitons/combineArraysToString";
 
 export default function Page() {
   const { id } = useParams();
@@ -27,7 +28,9 @@ export default function Page() {
       "https://wallpaperbat.com/img/864499-anime-wallpaper-hd-1920x1080.jpg",
     ],
   };
-  const headerFormat = splitStringIntoTwoArrays(data.header);
+  let headerFormat = combineArraysToString(
+    splitStringIntoTwoArrays(data.header)
+  );
   const date = dateFormatChanger(data.date);
   return (
     <div className="">
