@@ -30,12 +30,12 @@ export default function NavigationBar() {
   }, [theme]);
 
   if (isLoading) {
-    return <div>Loading...</div>; // Or any loading indicator
+    return <div></div>; // Or any loading indicator
   }
 
   const logo = resolvedTheme === "light" ? whiteLogo : blackLogo;
   return (
-    <nav className="fixed w-full top-0 left-0">
+    <nav className="fixed w-full top-0 left-0 z-[2]">
       <div className="flex justify-between items-center w-11/12 lg:h-20 md:h-16 h-14  rounded-xl m-auto mt-3 bg-primary dark:bg-secondary relative">
         <Image
           className="lg:ms-5 md:ms-3 my-2 lg:w-24 lg:h-24 md:w-20 md:h-20 w-16 h-16 cursor-pointer"

@@ -29,7 +29,7 @@ export default function ItemShowCase(props: {
               {props.description}
             </p>
             <Link
-              href={`/event/${props.id}`}
+              href={`/events/${props.id}`}
               className=" px-3.5 font-com text-sm capitalize text-white shadow "
             >
               See More
