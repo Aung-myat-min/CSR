@@ -1,5 +1,6 @@
 "use client";
+import React from "react";
 
 export default function App() {
-  return <div>Hello Wolrd</div>;
+  return <div>Home Page</div>;
 }
