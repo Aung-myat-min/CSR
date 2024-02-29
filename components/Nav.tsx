@@ -41,7 +41,7 @@ export default function NavigationBar() {
           className="lg:ms-5 md:ms-3 my-2 lg:w-24 lg:h-24 md:w-20 md:h-20 w-16 h-16 cursor-pointer"
           src={logo}
           alt="Loading Light/Dark Toggle"
-          priority={false}
+          priority={true}
           title="Loading Light/Dark Toggle"
         />
 

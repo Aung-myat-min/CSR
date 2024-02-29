@@ -42,7 +42,7 @@ export default function Page() {
           {headerFormat[1]}
         </h1>
       </div>
-      <div className="max-w-[600px] h-fit w-11/12 m-auto  flex items-center relative group my-10">
+      <div className="max-w-[600px] h-fit w-11/12 m-auto  flex items-center relative group my-10 z-[-1]">
         <Image
           className="rounded-2xl"
           src={data.image_url}
