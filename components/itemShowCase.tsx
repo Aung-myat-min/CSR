@@ -7,7 +7,7 @@ export default function ItemShowCase(props: {
   id: number;
 }) {
   return (
-    <div className="w-11/12 m-auto">
+    <div className="w-full m-auto">
       <div className="">
         <div className="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30 rounded-3xl">
           <div className="">

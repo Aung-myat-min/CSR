@@ -3,7 +3,7 @@ import Carousal from "@/components/Carousal";
 
 export default function Page() {
   return (
-    <div>
+    <div className="flex-grow">
       <Carousal />
       <Card />
     </div>

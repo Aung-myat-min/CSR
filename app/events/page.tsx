@@ -1,4 +1,5 @@
 "use client";
+import EventSwitch from "@/components/EventSwitch";
 import ItemShowCase from "@/components/itemShowCase";
 
 const items = [
@@ -60,18 +61,21 @@ const items = [
 
 export default function App() {
   return (
-    <div className="grid grid-cols-3 gap-10 mt-[12vh]">
-      {items.map((item, index) => {
-        return (
-          <ItemShowCase
-            key={index}
-            header={item.headers}
-            description={item.description}
-            url={item.url}
-            id={item.id}
-          />
-        );
-      })}
+    <div className="w-11/12 m-auto flex-grow">
+      <EventSwitch />
+      <div className="grid lg:grid-cols-3 lg:gap-10 md:grid-cols-2 md:gap-7 gap-4  grid-cols-1 mt-8">
+        {items.map((item, index) => {
+          return (
+            <ItemShowCase
+              key={index}
+              header={item.headers}
+              description={item.description}
+              url={item.url}
+              id={item.id}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }

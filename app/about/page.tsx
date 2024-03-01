@@ -34,7 +34,7 @@ const people = [
 
 export default function Example() {
   return (
-    <div className="bg-white py-24 sm:py-32">
+    <div className="bg-backgroud dark:bg-content flex-grow py-24 sm:py-32">
       <div className="m-auto  w-11/12 ">
         <ul
           role="list"
@@ -49,10 +49,10 @@ export default function Example() {
                   alt=""
                 />
                 <div>
-                  <h3 className="text-base font-semibold leading-7 tracking-tight text-gray-900">
+                  <h3 className="text-base font-semibold leading-7 tracking-tight">
                     {person.name}
                   </h3>
-                  <p className="text-sm font-semibold leading-6 text-indigo-600">
+                  <p className="text-sm font-semibold leading-6 text-main">
                     {person.role}
                   </p>
                 </div>
