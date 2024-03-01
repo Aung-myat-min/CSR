@@ -34,13 +34,10 @@ export default function Footer() {
 
   const logo = resolvedTheme === "light" ? whiteLogo : blackLogo;
   return (
-    <footer className="bg-white rounded-lg shadow dark:bg-gray-900 mt-16">
-      <div className="w-full max-w-screen-xl mx-auto p-4 ">
-        <div className="sm:flex sm:items-center sm:justify-between">
-          <a
-            href="https://flowbite.com/"
-            className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
-          >
+    <footer className="bg-primary w-11/12 m-auto rounded-t-xl shadow dark:bg-secondary mt-8">
+      <div className="w-full  mx-auto p-5 ">
+        <div className="sm:flex sm:items-center sm:justify-between ">
+          <a href="https://flowbite.com/" className="flex items-center ">
             <Image
               className="lg:ms-5 md:ms-3  lg:w-24 lg:h-24 md:w-20 md:h-20 w-16 h-16 cursor-pointer"
               src={logo}
@@ -48,17 +45,17 @@ export default function Footer() {
               priority={true}
               title="Loading Light/Dark Toggle"
             />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              GUSTO CSR Program
-            </span>
           </a>
-          <h2>Helps Other For Better Unity</h2>
+          <h2 className="lg:me-5 md:me-3 ">Helps Other For Better Unity</h2>
         </div>
 
-        <hr className=" border-gray-200 sm:mx-auto dark:border-gray-700 my-4" />
-        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
+        <hr className=" border-secondary sm:mx-auto dark:border-primary my-5 " />
+        <span className="block text-sm  sm:text-center pb-1">
           © 2024{" "}
-          <a href="https://flowbite.com/" className="hover:underline">
+          <a
+            href="https://www.facebook.com/profile.php?id=100090924746210&mibextid=ZbWKwL"
+            className="hover:underline"
+          >
             GUSTO CSR Program
           </a>
           . By{" "}
@@ -66,13 +63,19 @@ export default function Footer() {
             DigitalSphere
           </a>
         </span>
-        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
+        <span className="block text-xs sm:text-center ">
           Developer:{" "}
-          <a href="https://flowbite.com/" className="hover:underline">
+          <a
+            href="https://github.com/Aung-myat-min"
+            className="hover:underline"
+          >
             Aung Myat Min
           </a>{" "}
           &{" "}
-          <a href="https://flowbite.com/" className="hover:underline">
+          <a
+            href="https://github.com/PhyoMinKhant-Xem"
+            className="hover:underline"
+          >
             Phyo Min Khant
           </a>
         </span>
