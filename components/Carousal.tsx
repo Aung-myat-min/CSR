@@ -41,7 +41,7 @@ export default function Carousal() {
   const startSlider = () => {
     slideInterval = setInterval(() => {
       handleOnNextClick();
-    }, 5000);
+    }, 3000);
   };
 
   const pauseSlider = () => {
@@ -66,7 +66,7 @@ export default function Carousal() {
     <div>
       <div
         ref={slideRef}
-        className="max-w-[1920px] lg:h-[550px] md:h-[450px] xl:h-[600px] h-[280px] w-11/12 m-auto lg:mt-28 md:mt-24 xl:mt-30 mt-20  relative group"
+        className="max-w-[1920px] lg:h-[550px] md:h-[450px] xl:h-[580px] h-[280px] w-11/12 m-auto lg:mt-28 md:mt-24 xl:mt-30 mt-20  relative group"
       >
         <div
           style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
@@ -75,13 +75,13 @@ export default function Carousal() {
 
         <div className="absolute w-full top-1/2 transform -translate-y-1/2 px-3 flex justify-between items-center">
           <button
-            className="bg-black text-white p-1 rounded-full bg-opacity-50 cursor-pointer hover:bg-opacity-100 transition"
+            className="bg-content dark:bg-background text-background dark:text-content p-1 rounded-full bg-opacity-50 dark:bg-opacity-50 cursor-pointer hover:bg-opacity-100 transition"
             onClick={handleOnPrevClick}
           >
             <BsChevronCompactLeft size={30} />
           </button>
           <button
-            className="bg-black text-white p-1 rounded-full bg-opacity-50 cursor-pointer hover:bg-opacity-100 transition"
+            className="bg-content dark:bg-background text-background dark:text-content p-1 rounded-full bg-opacity-50 dark:bg-opacity-50 cursor-pointer hover:bg-opacity-100 transition"
             onClick={handleOnNextClick}
           >
             <BsChevronCompactRight size={30} />
@@ -93,7 +93,9 @@ export default function Carousal() {
               key={slideIndex}
               onClick={() => goToSlide(slideIndex)}
               className={`text-2xl cursor-pointer ${
-                slideIndex === currentIndex ? "text-red-500" : "text-gray-500"
+                slideIndex === currentIndex
+                  ? "text-main"
+                  : "text-primary dark:text-secondary"
               }`}
             >
               <RxDotFilled />

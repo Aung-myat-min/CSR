@@ -1,3 +1,9 @@
+import Carousal from "@/components/Carousal";
+
 export default function Page() {
-  return <div>Hello World!</div>;
+  return (
+    <div>
+      <Carousal />
+    </div>
+  );
 }
