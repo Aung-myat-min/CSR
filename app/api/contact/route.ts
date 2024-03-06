@@ -3,8 +3,8 @@ import { sendMail } from "./sendEmail";
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
-  const email = formData.get("email") || "";
-  const message = formData.get("message") || "";
+  const email = formData.get("email")?.toString() || "";
+  const message = formData.get("message")?.toString() || "";
   const sendingEmail = await sendMail(email, message);
   if (!sendingEmail) {
     return NextResponse.json({
