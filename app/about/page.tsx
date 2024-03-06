@@ -1,5 +1,6 @@
 "use client";
 import { IMember } from "@/Schemas/MemberSchema";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function Example() {
@@ -28,7 +29,9 @@ export default function Example() {
             members.map((member) => (
               <li key={member._id} className="m-auto my-4">
                 <div className="flex items-center gap-x-2">
-                  <img
+                  <Image
+                    width={64}
+                    height={64}
                     className="h-16 w-16 rounded-full"
                     src={member.Photo}
                     alt=""

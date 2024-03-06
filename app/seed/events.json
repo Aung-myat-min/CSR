@@ -1,0 +1,56 @@
+[
+  {
+    "_id": 1,
+    "EventName": "Charity Gala",
+    "EventDescription": "A fundraising gala for charity organizations",
+    "EventPhotoURL": "https://6d5qbqxnwl8juodu.public.blob.vercel-storage.com/events/GUSTO_CSR-KbSpRgZiJrWxDV8C0GWGyNbiFCTLLy.jpg",
+    "EventPhotoList": [
+      "https://6d5qbqxnwl8juodu.public.blob.vercel-storage.com/events/GUSTO_CSR-KbSpRgZiJrWxDV8C0GWGyNbiFCTLLy.jpg",
+      "https://6d5qbqxnwl8juodu.public.blob.vercel-storage.com/events/GUSTO_CSR-KbSpRgZiJrWxDV8C0GWGyNbiFCTLLy.jpg",
+      "https://6d5qbqxnwl8juodu.public.blob.vercel-storage.com/events/GUSTO_CSR-KbSpRgZiJrWxDV8C0GWGyNbiFCTLLy.jpg",
+      "https://6d5qbqxnwl8juodu.public.blob.vercel-storage.com/events/GUSTO_CSR-KbSpRgZiJrWxDV8C0GWGyNbiFCTLLy.jpg"
+    ],
+    "DonatedAmount": 5000,
+    "EventDate": "2024-05-15",
+    "Completed": true
+  },
+  {
+    "_id": 2,
+    "EventName": "Food Drive",
+    "EventDescription": "Collecting food items for the homeless",
+    "EventPhotoURL": "https://6d5qbqxnwl8juodu.public.blob.vercel-storage.com/events/GUSTO_CSR-KbSpRgZiJrWxDV8C0GWGyNbiFCTLLy.jpg",
+    "EventPhotoList": [
+      "https://6d5qbqxnwl8juodu.public.blob.vercel-storage.com/events/GUSTO_CSR-KbSpRgZiJrWxDV8C0GWGyNbiFCTLLy.jpg",
+      "https://6d5qbqxnwl8juodu.public.blob.vercel-storage.com/events/GUSTO_CSR-KbSpRgZiJrWxDV8C0GWGyNbiFCTLLy.jpg",
+      "https://6d5qbqxnwl8juodu.public.blob.vercel-storage.com/events/GUSTO_CSR-KbSpRgZiJrWxDV8C0GWGyNbiFCTLLy.jpg",
+      "https://6d5qbqxnwl8juodu.public.blob.vercel-storage.com/events/GUSTO_CSR-KbSpRgZiJrWxDV8C0GWGyNbiFCTLLy.jpg"
+    ],
+    "DonatedAmount": 2500,
+    "EventDate": "2024-04-20",
+    "Completed": true
+  },
+  {
+    "_id": 3,
+    "EventName": "Blood Donation Camp",
+    "EventDescription": "Blood donation camp organized by Red Cross",
+    "EventPhotoURL": "https://6d5qbqxnwl8juodu.public.blob.vercel-storage.com/events/GUSTO_CSR-KbSpRgZiJrWxDV8C0GWGyNbiFCTLLy.jpg",
+    "EventPhotoList": [
+      "https://6d5qbqxnwl8juodu.public.blob.vercel-storage.com/events/GUSTO_CSR-KbSpRgZiJrWxDV8C0GWGyNbiFCTLLy.jpg",
+      "https://6d5qbqxnwl8juodu.public.blob.vercel-storage.com/events/GUSTO_CSR-KbSpRgZiJrWxDV8C0GWGyNbiFCTLLy.jpg"
+    ],
+    "EventDate": "2024-06-10",
+    "Completed": false
+  },
+  {
+    "_id": 4,
+    "EventName": "Tree Plantation Drive",
+    "EventDescription": "Planting trees to combat climate change",
+    "EventPhotoURL": "https://6d5qbqxnwl8juodu.public.blob.vercel-storage.com/events/GUSTO_CSR-KbSpRgZiJrWxDV8C0GWGyNbiFCTLLy.jpg",
+    "EventPhotoList": [
+      "https://6d5qbqxnwl8juodu.public.blob.vercel-storage.com/events/GUSTO_CSR-KbSpRgZiJrWxDV8C0GWGyNbiFCTLLy.jpg",
+      "https://6d5qbqxnwl8juodu.public.blob.vercel-storage.com/events/GUSTO_CSR-KbSpRgZiJrWxDV8C0GWGyNbiFCTLLy.jpg"
+    ],
+    "EventDate": "2024-07-01",
+    "Completed": false
+  }
+]
