@@ -6,6 +6,7 @@ import { splitStringIntoTwoArrays } from "../funcitons/splitStringIntoTwoArrays"
 import { combineArraysToString } from "../funcitons/combineArraysToString";
 import { useEffect, useState } from "react";
 import { IEvent } from "@/Schemas/EventSchema";
+import { SyncLoader } from "react-spinners";
 
 export default function Page() {
   const { id } = useParams();
@@ -22,7 +23,11 @@ export default function Page() {
   }, [id]);
 
   if (!event) {
-    return <div>Loading...</div>; // or any loading indicator
+    return (
+      <div className="w-11/12 m-auto flex-grow">
+        <SyncLoader color="#02598B" margin={5} size={20} />
+      </div>
+    );
   }
 
   // Now event is defined, you can access its properties safely
@@ -41,40 +46,44 @@ export default function Page() {
           {headerFormat[1]}
         </h1>
       </div>
-      <div className="max-w-[600px] h-fit w-11/12 m-auto  flex items-center relative group my-10 z-[-1]">
+      <div className="max-w-[600px] h-fit w-11/12 m-auto  flex items-center relative group my-10 z-[-1] flex-col">
         <Image
           className="rounded-2xl"
-          src={event!.EventPhotoURL}
-          alt={event!.EventName}
+          src={event.EventPhotoURL}
+          alt={event.EventName}
           priority={false}
-          title={event!.EventName}
+          title={event.EventName}
           width={1920}
           height={1080}
         />
+        <p className="font-bold text-3xl m-2">
+          {event.DonatedAmount ? event.DonatedAmount + " Kyats" : ""}
+        </p>
       </div>
       <div className="w-11/12 m-auto">
-        <h2 className="font-bold text-2xl mb-2">{event!.EventName}</h2>
-        <p className="text-sm">{event!.EventDescription}</p>
+        <h2 className="font-bold text-2xl mb-2">{event.EventName}</h2>
+        <p className="text-sm">{event.EventDescription}</p>
       </div>
       <div className="w-11/12 m-auto">
         <h2 className="font-bold text-2xl mb-2">More Photo</h2>
         <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-5 mt-5">
-          {event &&
-            event.EventPhotoList!.map((image, index) => {
-              return (
-                <div className="max-w-[600px] h-fit " key={index}>
-                  <Image
-                    className="rounded-2xl"
-                    src={image}
-                    alt="Moment of CSR's Donation" //add a function which change these according to the image name
-                    priority={false}
-                    title="Moment of CSR's Donation" //add a function which change these according to the image name
-                    width={1920}
-                    height={1080}
-                  />
-                </div>
-              );
-            })}
+          {event.EventPhotoList && event.EventPhotoList.length > 0 ? (
+            event.EventPhotoList.map((image, index) => (
+              <div className="max-w-[600px] h-fit" key={index}>
+                <Image
+                  className="rounded-2xl"
+                  src={image}
+                  alt="Moment of CSR's Donation" // add a function to change these according to the image name
+                  priority={false}
+                  title="Moment of CSR's Donation" // add a function to change these according to the image name
+                  width={1920}
+                  height={1080}
+                />
+              </div>
+            ))
+          ) : (
+            <p>No photos at current</p>
+          )}
         </div>
       </div>
     </div>

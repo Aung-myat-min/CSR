@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 export default function Example() {
   const fetchMember = async () => {
-    const res = await fetch("/about/members");
+    const res = await fetch("/about/members", { cache: "no-store" });
     const members = await res.json();
     return members;
   };
