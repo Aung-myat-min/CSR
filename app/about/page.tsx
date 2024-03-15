@@ -24,7 +24,7 @@ export default function Example() {
   // Display loading state if data is being fetched
   if (loading) {
     return (
-      <div className="w-11/12 m-auto flex-grow items-center justify-center">
+      <div className="w-11/12 m-auto flex items-center justify-center">
         <SyncLoader color="#02598B" margin={5} size={20} />
       </div>
     );
