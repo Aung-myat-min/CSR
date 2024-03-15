@@ -52,7 +52,9 @@ export default function App() {
       />
       <div className="grid lg:grid-cols-3 lg:gap-10 md:grid-cols-2 md:gap-7 gap-4  grid-cols-1 mt-8">
         {loading ? (
-          <div></div>
+          <div className="w-11/12 m-auto flex items-center justify-center">
+            <ClipLoader color="#02598B" size={30} />
+          </div>
         ) : events && events.length > 0 ? (
           events.map((item) => (
             <ItemShowCase
