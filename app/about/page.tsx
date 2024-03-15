@@ -24,7 +24,7 @@ export default function Example() {
   // Display loading state if data is being fetched
   if (loading) {
     return (
-      <div className="w-11/12 m-auto flex items-center justify-center">
+      <div className="w-11/12 m-auto flex-grow items-center justify-center">
         <SyncLoader color="#02598B" margin={5} size={20} />
       </div>
     );
@@ -33,8 +33,10 @@ export default function Example() {
   // Display message if members data is empty
   if (!members || members.length === 0) {
     return (
-      <div className="flex-grow items-center justify-center h-64 w-full text-lg font-bold">
-        Members data not found.
+      <div className="w-11/12 m-auto mt-24 flex-grow">
+        <p className="font-bold text-2xl flex  justify-center h-96 items-center">
+          No Events right now
+        </p>
       </div>
     );
   }

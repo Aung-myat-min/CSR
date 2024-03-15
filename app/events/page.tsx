@@ -70,8 +70,8 @@ export default function App() {
               />
             ))
           ) : (
-            <div className="col-span-3 flex items-center justify-center">
-              <p className="text-lg font-bold">No Events right now</p>
+            <div className="col-span-3 flex items-center h-96 justify-center">
+              <p className="font-bold text-2xl">No Events right now</p>
             </div>
           )}
         </div>
