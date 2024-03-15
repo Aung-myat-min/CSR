@@ -3,7 +3,7 @@ import { IEvent } from "@/Schemas/EventSchema";
 import EventSwitch from "@/components/EventSwitch";
 import ItemShowCase from "@/components/itemShowCase";
 import { useEffect, useState } from "react";
-import { BounceLoader, SyncLoader } from "react-spinners";
+import { ClipLoader, SyncLoader } from "react-spinners";
 
 export default function App() {
   const fetchPreviousEvents = async () => {
@@ -52,7 +52,7 @@ export default function App() {
       />
       <div className="grid lg:grid-cols-3 lg:gap-10 md:grid-cols-2 md:gap-7 gap-4  grid-cols-1 mt-8">
         {loading ? (
-          <BounceLoader color="#02598B" size={100} />
+          <div></div>
         ) : events && events.length > 0 ? (
           events.map((item) => (
             <ItemShowCase

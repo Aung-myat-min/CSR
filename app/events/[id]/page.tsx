@@ -24,7 +24,7 @@ export default function Page() {
 
   if (!event) {
     return (
-      <div className="w-11/12 m-auto flex-grow">
+      <div className="w-11/12 m-auto flex items-center justify-center">
         <SyncLoader color="#02598B" margin={5} size={20} />
       </div>
     );
