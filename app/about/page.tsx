@@ -32,7 +32,11 @@ export default function Example() {
 
   // Display message if members data is empty
   if (!members || members.length === 0) {
-    return <div>Members data not found.</div>;
+    return (
+      <div className="flex-grow items-center justify-center h-64 w-full text-lg font-bold">
+        Members data not found.
+      </div>
+    );
   }
 
   return (

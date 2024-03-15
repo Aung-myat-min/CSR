@@ -50,25 +50,32 @@ export default function App() {
         upcomingFunc={handleUpcomingClick}
         previousFunc={handlePreviousClick}
       />
-      <div className="grid lg:grid-cols-3 lg:gap-10 md:grid-cols-2 md:gap-7 gap-4  grid-cols-1 mt-8">
-        {loading ? (
-          <div className="w-11/12 m-auto flex items-center justify-center">
+      {loading ? (
+        <div className="w-full flex items-center justify-center">
+          <div className="text-center">
             <ClipLoader color="#02598B" size={30} />
+            <p className="mt-2 text-lg font-bold">Loading...</p>
           </div>
-        ) : events && events.length > 0 ? (
-          events.map((item) => (
-            <ItemShowCase
-              key={item._id}
-              header={item.EventName}
-              description={item.EventDescription}
-              url={item.EventPhotoURL}
-              id={item._id}
-            />
-          ))
-        ) : (
-          <p>No Events right now</p>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="grid lg:grid-cols-3 lg:gap-10 md:grid-cols-2 md:gap-7 gap-4 grid-cols-1 mt-8">
+          {events && events.length > 0 ? (
+            events.map((item) => (
+              <ItemShowCase
+                key={item._id}
+                header={item.EventName}
+                description={item.EventDescription}
+                url={item.EventPhotoURL}
+                id={item._id}
+              />
+            ))
+          ) : (
+            <div className="col-span-3 flex items-center justify-center">
+              <p className="text-lg font-bold">No Events right now</p>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
