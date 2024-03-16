@@ -6,7 +6,7 @@ import { SyncLoader } from "react-spinners";
 
 export default function Example() {
   const fetchMember = async () => {
-    const res = await fetch("/about/members", { cache: "no-store" });
+    const res = await fetch("/api/members", { next: { revalidate: 3600 } });
     const members = await res.json();
     return members;
   };
