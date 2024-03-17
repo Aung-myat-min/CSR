@@ -7,19 +7,10 @@ let count = 0;
 let slideInterval: ReturnType<typeof setInterval>;
 const slides = [
   {
-    url: "https://96quhetnznzbwqlu.public.blob.vercel-storage.com/HighLight/Slide1-S97wVBY0O2PP0NmpqbnOpk5X2i8kI0.jpg",
+    url: "https://96quhetnznzbwqlu.public.blob.vercel-storage.com/HighLight/Slide1-pu3R110UUoIyHf3gkcvVNZtHd7OzR6.jpg",
   },
   {
-    url: "https://96quhetnznzbwqlu.public.blob.vercel-storage.com/HighLight/Slide2-vVQeGs3RiRvEbrTg8hce2T4DH7YvbD.jpg",
-  },
-  {
-    url: "https://96quhetnznzbwqlu.public.blob.vercel-storage.com/HighLight/Slide3-JQSpzIx4pb3OBGFPmrtj70xcn6L3uX.jpg",
-  },
-  {
-    url: "https://96quhetnznzbwqlu.public.blob.vercel-storage.com/HighLight/Slide4-cbm8rzbFgIPQ3eub2txu7bQQNnHGYC.jpg",
-  },
-  {
-    url: "https://96quhetnznzbwqlu.public.blob.vercel-storage.com/HighLight/Slide5-MTAlEg5JJkFnCIw03JblydmkXwB7YU.jpg",
+    url: "https://96quhetnznzbwqlu.public.blob.vercel-storage.com/HighLight/Slide2-nWfavytH0otHYyVx0cZUDZkHDZjCu6.png",
   },
 ];
 export default function Carousal() {
