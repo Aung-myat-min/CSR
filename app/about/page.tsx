@@ -35,7 +35,7 @@ export default function Example() {
     return (
       <div className="w-11/12 m-auto mt-24 flex-grow">
         <p className="font-bold text-2xl flex  justify-center h-96 items-center">
-          No Events right now
+          No Members Data Right Now
         </p>
       </div>
     );
