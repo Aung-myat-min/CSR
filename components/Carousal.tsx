@@ -12,6 +12,9 @@ const slides = [
   {
     url: "https://96quhetnznzbwqlu.public.blob.vercel-storage.com/HighLight/Slide2-nWfavytH0otHYyVx0cZUDZkHDZjCu6.png",
   },
+  {
+    url: "https://96quhetnznzbwqlu.public.blob.vercel-storage.com/HighLight/Slide3-U7ifWJStKqbseAjqZLdW9pVultuvCb.png",
+  },
 ];
 export default function Carousal() {
   const [currentIndex, setCurrentIndex] = useState(0);
