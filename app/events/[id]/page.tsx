@@ -57,6 +57,7 @@ export default function Page() {
           height={1080}
         />
         <p className="font-bold text-3xl m-2">
+          Donated Amount:{" "}
           {event.DonatedAmount ? event.DonatedAmount + " Kyats" : ""}
         </p>
       </div>
