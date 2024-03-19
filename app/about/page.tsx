@@ -62,7 +62,7 @@ export default function MemberList() {
           className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 m-auto"
         >
           {members.map((member) => (
-            <li key={member._id} className="m-auto my-4">
+            <li key={member._id} className=" my-4">
               <div className="flex items-center gap-x-2">
                 {typeof member.Photo === "object" && member.Photo !== null ? (
                   <Image
