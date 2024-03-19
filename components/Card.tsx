@@ -12,7 +12,7 @@ export default function Card() {
           <p>MMK Donated</p>
         </div>
         <div className="bg-primary dark:bg-secondary py-10 rounded-xl font-bold text-xl lg:mx-10 md:mx-3 ">
-          <h3>175</h3>
+          <h3>185</h3>
           <p>Members</p>
         </div>
       </div>

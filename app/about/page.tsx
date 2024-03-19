@@ -21,6 +21,7 @@ export default function MemberList() {
 
   const [members, setMembers] = useState<IMember[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
     fetchMember().then((members: IMember[]) => {
@@ -31,9 +32,13 @@ export default function MemberList() {
 
   const loadMoreMembers = async () => {
     setLoading(true);
-    const newMembers = await fetchMember();
+    const nextPage = page + 1; // Calculate next page
+    const res = await fetch(`/api/members?page=${nextPage}`); // Pass page as query parameter
+    const data = await res.json();
+    const newMembers = data;
     setMembers((prevMembers) => [...prevMembers, ...newMembers]);
     setLoading(false);
+    setPage(nextPage); // Update page state
   };
 
   if (loading) {
