@@ -4,24 +4,38 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { SyncLoader } from "react-spinners";
 
-export default function Example() {
+export default function MemberList() {
   const fetchMember = async () => {
-    const res = await fetch("/api/members", { next: { revalidate: 3600 } });
-    const members = await res.json();
-    return members;
+    try {
+      const res = await fetch("/api/members", { next: { revalidate: 3600 } });
+      if (!res.ok) {
+        throw new Error("Failed to fetch members");
+      }
+      const members = await res.json();
+      return members;
+    } catch (error) {
+      console.error("Error fetching members:", error);
+      return [];
+    }
   };
 
-  const [members, setMembers] = useState<IMember[]>();
-  const [loading, setLoading] = useState<boolean>(true); // State for loading
+  const [members, setMembers] = useState<IMember[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     fetchMember().then((members: IMember[]) => {
       setMembers(members);
-      setLoading(false); // Set loading to false when data is fetched
+      setLoading(false);
     });
   }, []);
 
-  // Display loading state if data is being fetched
+  const loadMoreMembers = async () => {
+    setLoading(true);
+    const newMembers = await fetchMember();
+    setMembers((prevMembers) => [...prevMembers, ...newMembers]);
+    setLoading(false);
+  };
+
   if (loading) {
     return (
       <div className="w-11/12 m-auto flex items-center justify-center">
@@ -30,11 +44,10 @@ export default function Example() {
     );
   }
 
-  // Display message if members data is empty
   if (!members || members.length === 0) {
     return (
       <div className="w-11/12 m-auto mt-24 flex-grow">
-        <p className="font-bold text-2xl flex  justify-center h-96 items-center">
+        <p className="font-bold text-2xl flex justify-center h-96 items-center">
           No Members Data Right Now
         </p>
       </div>
@@ -51,13 +64,19 @@ export default function Example() {
           {members.map((member) => (
             <li key={member._id} className="m-auto my-4">
               <div className="flex items-center gap-x-2">
-                <Image
-                  width={64}
-                  height={64}
-                  className="h-16 w-16 rounded-full"
-                  src={member.Photo}
-                  alt=""
-                />
+                {typeof member.Photo === "object" && member.Photo !== null ? (
+                  <Image
+                    width={64}
+                    height={64}
+                    className="h-16 w-16 rounded-full"
+                    src={`data:image/png;base64,${convertObjectToBase64(
+                      member.Photo
+                    )}`}
+                    alt=""
+                  />
+                ) : (
+                  <span>No image available</span>
+                )}
                 <div>
                   <h3 className="text-base font-semibold leading-7 tracking-tight">
                     {member.Name}
@@ -70,7 +89,14 @@ export default function Example() {
             </li>
           ))}
         </ul>
+        <div className="flex justify-center">
+          <button onClick={loadMoreMembers}>See More Members</button>
+        </div>
       </div>
     </div>
   );
+}
+
+function convertObjectToBase64(data: any): Buffer {
+  return Buffer.from(data, "base64");
 }

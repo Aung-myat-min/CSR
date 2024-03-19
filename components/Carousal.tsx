@@ -1,19 +1,23 @@
 "use client";
+import path from "path";
 import React, { useEffect, useRef, useState } from "react";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
+import P2 from "@/public/images/P2.jpg";
+import P1 from "@/public/images/P1.jpg";
+import P3 from "@/public/images/P3.png";
 
 let count = 0;
 let slideInterval: ReturnType<typeof setInterval>;
 const slides = [
   {
-    url: "https://96quhetnznzbwqlu.public.blob.vercel-storage.com/HighLight/Slide1-pu3R110UUoIyHf3gkcvVNZtHd7OzR6.jpg",
+    url: P1.src,
   },
   {
-    url: "https://96quhetnznzbwqlu.public.blob.vercel-storage.com/HighLight/Slide2-nWfavytH0otHYyVx0cZUDZkHDZjCu6.png",
+    url: P2.src,
   },
   {
-    url: "https://96quhetnznzbwqlu.public.blob.vercel-storage.com/HighLight/Slide3-U7ifWJStKqbseAjqZLdW9pVultuvCb.png",
+    url: P3.src,
   },
 ];
 export default function Carousal() {
