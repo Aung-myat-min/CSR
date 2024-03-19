@@ -45,7 +45,7 @@ export default function App() {
               </p>
               <form onSubmit={handleSubmit} className="space-y-8">
                 <div>
-                  <Label label="Your Name" forInput="name" />
+                  <Label label="Your Email" forInput="email" />
                   <InputBox
                     type="email"
                     placeholder="example@email.com"

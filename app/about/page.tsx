@@ -55,15 +55,15 @@ export default function MemberList() {
   }
 
   return (
-    <div className="bg-backgroud dark:bg-content flex-grow py-24 sm:py-32">
+    <div className="bg-backgroud dark:bg-content flex-grow pt-24 sm:pt-32">
       <div className="m-auto w-11/12">
         <ul
           role="list"
           className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 m-auto"
         >
           {members.map((member) => (
-            <li key={member._id} className=" my-4">
-              <div className="flex items-center gap-x-2">
+            <li key={member._id} className=" my-8">
+              <div className="flex items-center gap-x-2 ">
                 {typeof member.Photo === "object" && member.Photo !== null ? (
                   <Image
                     width={64}
@@ -89,7 +89,7 @@ export default function MemberList() {
             </li>
           ))}
         </ul>
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-4">
           <button onClick={loadMoreMembers}>See More Members</button>
         </div>
       </div>

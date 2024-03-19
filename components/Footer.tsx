@@ -37,7 +37,10 @@ export default function Footer() {
     <footer className="bg-primary w-11/12 m-auto rounded-t-xl shadow dark:bg-secondary mt-8">
       <div className="w-full  mx-auto p-5 ">
         <div className="sm:flex sm:items-center sm:justify-between ">
-          <a href="https://flowbite.com/" className="flex items-center ">
+          <a
+            href="https://www.facebook.com/profile.php?id=100090924746210&mibextid=ZbWKwL"
+            className="flex items-center "
+          >
             <Image
               className="lg:ms-5 md:ms-3  lg:w-24 lg:h-24 md:w-20 md:h-20 w-16 h-16 cursor-pointer"
               src={logo}
@@ -59,7 +62,10 @@ export default function Footer() {
             GUSTO CSR Program
           </a>
           . By{" "}
-          <a href="https://flowbite.com/" className="hover:underline">
+          <a
+            href="https://www.facebook.com/profile.php?id=61554829256945"
+            className="hover:underline"
+          >
             DigitalSphere
           </a>
         </span>
