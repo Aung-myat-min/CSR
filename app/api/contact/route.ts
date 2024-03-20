@@ -6,7 +6,7 @@ const apiCallLimit = 3;
 const duration = "86400s";
 
 export async function POST(request: NextRequest) {
-  const ip = request.ip || "127.0.0.1";
+  const ip = request.headers.get("x-real-ip") ?? "127.0.0.1";
   const { success, pending, limit, reset, remaining } = await ratelimiter(
     apiCallLimit,
     duration
