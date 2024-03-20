@@ -6,6 +6,7 @@ import TextArea from "@/components/TextArea";
 import Label from "@/components/Label";
 import InputBox from "@/components/InputBox";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function App() {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -21,12 +22,28 @@ export default function App() {
     const formData = new FormData();
     formData.append("email", emailRef.current?.value?.toString() || "");
     formData.append("message", messageRef.current?.value?.toString() || "");
-    await axios.post("/api/contact", formData).then((res) => {
-      if (res.data.status === "success") {
-        alert(res.data.message); //TODO: alert the user beautifully
-      } else {
-        alert(res.data.message); //TODO: alert the user beautifully
-      }
+    try {
+      await axios.post("/api/contact", formData);
+      return "Message Sent!";
+    } catch (error: any) {
+      throw new Error(
+        error.response?.data?.message ||
+          "An error occurred while sending the message."
+      );
+    }
+  };
+
+  const getToast = (event: React.FormEvent<HTMLFormElement>) => {
+    toast.promise(handleSubmit(event), {
+      loading: "Sending...",
+      success: () => {
+        emailRef.current!.value! = "";
+        messageRef.current!.value! = "";
+        return "Message Sent!";
+      },
+      error: (error) => {
+        return error.message;
+      },
     });
   };
 
@@ -40,10 +57,10 @@ export default function App() {
                 Contact Us
               </h2>
               <p className="mb-8 lg:mb-14 font-light text-center text-gray-500 dark:text-gray-400 sm:text-xl">
-                Got a technical issue? Want to send feedback about a beta
-                feature? Need details about our Business plan? Let us know.
+                Got a technical issue? Want to send feedback about features?
+                Need details about our plan? Let us know.
               </p>
-              <form onSubmit={handleSubmit} className="space-y-8">
+              <form onSubmit={getToast} className="space-y-8">
                 <div>
                   <Label label="Your Email" forInput="email" />
                   <InputBox
@@ -51,6 +68,7 @@ export default function App() {
                     placeholder="example@email.com"
                     id="email"
                     ref={emailRef}
+                    required
                   />
                 </div>
 
@@ -60,6 +78,7 @@ export default function App() {
                     id="message"
                     placeholder="Leave a comment..."
                     ref={messageRef}
+                    required
                   />
                 </div>
                 <div className="flex ">
@@ -80,6 +99,15 @@ export default function App() {
                   Send message
                 </button>
               </form>
+              <Toaster
+                toastOptions={{
+                  className: "",
+                  style: {
+                    background: "#015486",
+                    color: "#ffe4e6",
+                  },
+                }}
+              />
             </div>
           </section>
         </div>

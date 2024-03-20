@@ -43,7 +43,7 @@ export default function MemberList() {
 
   if (loading) {
     return (
-      <div className="w-11/12 m-auto flex items-center justify-center">
+      <div className="w-11/12 m-auto flex items-center justify-center flex-grow">
         <SyncLoader color="#02598B" margin={5} size={20} />
       </div>
     );
@@ -61,7 +61,8 @@ export default function MemberList() {
 
   return (
     <div className="bg-backgroud dark:bg-content flex-grow pt-24 sm:pt-32">
-      <div className="m-auto w-11/12">
+      <div className="m-auto w-10/12">
+        <h1 className="text-4xl font-bold text-center">Our Members</h1>
         <ul
           role="list"
           className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 m-auto"
