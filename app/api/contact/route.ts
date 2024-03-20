@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { sendMail } from "./sendEmail";
 import { ratelimiter } from "@/app/utils/rate-limiter";
 
-const apiCallLimit = 5;
+const apiCallLimit = 3;
 const duration = "86400s";
 
 export async function POST(request: NextRequest) {
@@ -14,7 +14,9 @@ export async function POST(request: NextRequest) {
   if (!success) {
     console.log(ip);
     return NextResponse.json(
-      { message: "Our Server is busy. Please comeback after sometimes." },
+      {
+        message: `Our Server is busy. Please comeback after sometimes`,
+      },
       { status: 429 }
     );
   }
