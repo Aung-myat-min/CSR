@@ -45,7 +45,7 @@ export default function App() {
   };
 
   return (
-    <div className="w-11/12 m-auto flex-grow">
+    <main className="w-11/12 m-auto flex-grow">
       <EventSwitch
         upcomingFunc={handleUpcomingClick}
         previousFunc={handlePreviousClick}
@@ -58,7 +58,7 @@ export default function App() {
           </div>
         </div>
       ) : (
-        <div className="grid lg:grid-cols-3 lg:gap-10 md:grid-cols-2 md:gap-7 gap-4 grid-cols-1 mt-8">
+        <section className="grid lg:grid-cols-3 lg:gap-10 md:grid-cols-2 md:gap-7 gap-4 grid-cols-1 mt-8">
           {events && events.length > 0 ? (
             events.map((item) => (
               <ItemShowCase
@@ -74,8 +74,8 @@ export default function App() {
               <p className="font-bold text-2xl">No Events right now</p>
             </div>
           )}
-        </div>
+        </section>
       )}
-    </div>
+    </main>
   );
 }

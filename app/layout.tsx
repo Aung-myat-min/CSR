@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "GUSTO-CSR",
-  description: "This Website shows the work of CSR Organizaiton",
+  description: "This Website shows the work of GUSTO CSR Organizaiton",
 };
 
 export default function RootLayout({

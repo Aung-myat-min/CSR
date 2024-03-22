@@ -50,7 +50,7 @@ export default function App() {
   return (
     <>
       {isClient && (
-        <div className="lg:mt-24 md:mt-52 mt-28 flex-grow">
+        <main className="lg:mt-24 md:mt-52 mt-28 flex-grow">
           <section className="">
             <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
               <h2 className="mb-5 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">
@@ -110,7 +110,7 @@ export default function App() {
               />
             </div>
           </section>
-        </div>
+        </main>
       )}
     </>
   );

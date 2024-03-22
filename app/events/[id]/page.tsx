@@ -37,15 +37,15 @@ export default function Page() {
   const date = dateFormatChanger(event.EventDate.toString());
 
   return (
-    <div className="">
-      <div className="w-11/12 m-auto lg:mt-28 md:mt-24 xl:mt-30 mt-20 text-center">
+    <main className="">
+      <section className="w-11/12 m-auto lg:mt-28 md:mt-24 xl:mt-30 mt-20 text-center">
         <p className="font-bold opacity-75 mb-2 text-sm ">{date}</p>
         <h1 className="font-black text-4xl">
           {headerFormat[0]}
           <br />
           {headerFormat[1]}
         </h1>
-      </div>
+      </section>
       <div className="max-w-[600px] h-fit w-11/12 m-auto  flex items-center relative group my-10 z-[-1] flex-col">
         <Image
           className="rounded-2xl"
@@ -61,11 +61,11 @@ export default function Page() {
           {event.DonatedAmount ? event.DonatedAmount + " Kyats" : ""}
         </p>
       </div>
-      <div className="w-11/12 m-auto">
+      <section className="w-11/12 m-auto">
         <h2 className="font-bold text-2xl mb-2">{event.EventName}</h2>
         <p className="text-sm">{event.EventDescription}</p>
-      </div>
-      <div className="w-11/12 m-auto">
+      </section>
+      <section className="w-11/12 m-auto">
         <h2 className="font-bold text-2xl mb-2">More Photo</h2>
         <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-5 mt-5">
           {event.EventPhotoList && event.EventPhotoList.length > 0 ? (
@@ -86,7 +86,7 @@ export default function Page() {
             <p>No photos at current</p>
           )}
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

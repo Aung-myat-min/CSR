@@ -60,7 +60,7 @@ export default function MemberList() {
   }
 
   return (
-    <div className="bg-backgroud dark:bg-content flex-grow pt-24 sm:pt-32">
+    <main className="bg-backgroud dark:bg-content flex-grow pt-24 sm:pt-32">
       <div className="m-auto w-10/12">
         <h1 className="text-4xl font-bold text-center">Our Members</h1>
         <ul
@@ -84,9 +84,9 @@ export default function MemberList() {
                   <span>No image available</span>
                 )}
                 <div>
-                  <h3 className="text-base font-semibold leading-7 tracking-tight">
+                  <p className="text-base font-semibold leading-7 tracking-tight">
                     {member.Name}
-                  </h3>
+                  </p>
                   <p className="text-sm font-semibold leading-6 text-main">
                     {member.Role}
                   </p>
@@ -99,7 +99,7 @@ export default function MemberList() {
           <button onClick={loadMoreMembers}>See More Members</button>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 
