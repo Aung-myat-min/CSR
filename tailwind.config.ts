@@ -15,6 +15,16 @@ const config: Config = {
         primary: "#E5E5E5",
         secondary: "#121212",
       },
+      keyframes: {
+        slide: {
+          "0%, 20%": { transform: "translateX(0)" },
+          "25%, 45%": { transform: "translateX(-100%)" },
+          "50%, 70%": { transform: "translateX(-200%)" },
+        },
+      },
+      animation: {
+        slide: "slide 12s ease-in-out infinite",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],
