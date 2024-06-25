@@ -18,7 +18,7 @@ export default function PhotoList({ photos }: { photos: Photo[] }) {
   return (
     <section className="w-11/12 m-auto mt-5 relative">
       <PhotoAlbum
-        layout="rows"
+        layout="columns"
         photos={photos}
         renderPhoto={NextJsImage}
         onClick={({ index }) => setIndex(index)}
