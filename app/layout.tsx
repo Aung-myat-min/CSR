@@ -21,7 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
-      <body className="bg-background text-content dark:bg-content dark:text-background">
+      <body
+        style={{ scrollBehavior: "smooth" }}
+        className="bg-background text-content dark:bg-content dark:text-background"
+      >
         <SpeedInsights />
         <Analytics />
         <div className="flex flex-col h-screen justify-between">

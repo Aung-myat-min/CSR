@@ -18,16 +18,26 @@ const config: Config = {
       keyframes: {
         slide: {
           "0%, 20%": { transform: "translateX(0)" },
-          "25%, 45%": { transform: "translateX(-100%)" },
-          "50%, 70%": { transform: "translateX(-200%)" },
+          "25%, 50%": { transform: "translateX(-100%)" },
+          "60%, 90%": { transform: "translateX(-200%)" },
         },
       },
       animation: {
-        slide: "slide 12s ease-in-out infinite",
+        slide: "slide 20s ease-in-out infinite",
       },
     },
   },
-  plugins: [require("@tailwindcss/forms")],
+  plugins: [
+    require("@tailwindcss/forms"),
+    function ({ addUtilities }: { addUtilities: any }) {
+      addUtilities({
+        ".mask-gradient": {
+          "mask-image":
+            "linear-gradient(to bottom, transparent 0%, transparent 10%, #000 25%, #000 100%)",
+        },
+      });
+    },
+  ],
   darkMode: "class",
 };
 export default config;
