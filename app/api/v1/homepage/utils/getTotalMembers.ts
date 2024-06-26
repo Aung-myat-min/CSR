@@ -1,6 +1,13 @@
+import MemberModel from "@/Schemas/MemberSchema";
+
 const getTotalMembers = async () => {
-  // TODO: get Total Numbers of Members
-  return 185;
+  try {
+    const totalMembers = await MemberModel.countDocuments();
+    return totalMembers;
+  } catch (error) {
+    console.error(error);
+    return 0;
+  }
 };
 
 export default getTotalMembers;

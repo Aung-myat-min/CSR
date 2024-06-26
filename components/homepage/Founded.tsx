@@ -15,24 +15,6 @@ export default function Founded() {
     div: "",
   };
   return (
-    // <section className="flex flex-row w-11/12 mx-auto mt-14 gap-3 h-40">
-    //   <div className="flex-1 relative">
-    //     <p className="text-4xl absolute top-4 left-4 rotate-[-40deg] z-10 bg-white dark:bg-secondary">
-    //       Since
-    //     </p>
-    //     <div className="mask-gradient h-full text-3xl p-4 flex bg-primary dark:bg-sescondary rounded-xl font-bold lg:mx-10 md:mx-3 justify-center items-center dark:text-secondary">
-    //       20, March 2023
-    //     </div>
-    //   </div>
-    //   <div className="flex-1 relative">
-    //     <p className="text-xl absolute top-4 left-4 rotate-[-40deg] z-10 bg-white dark:bg-secondary">
-    //       Founded By
-    //     </p>
-    //     <div className="mask-gradient h-full text-3xl p-4 flex bg-primary dark:bg-sescondary rounded-xl font-bold lg:mx-10 md:mx-3 justify-center items-center dark:text-secondary">
-    //       Level-3 {"(Batch-17)"}
-    //     </div>
-    //   </div>
-    // </section>
     <section className="grid grid-cols-2 grid-rows-2 w-11/12 my-20 mx-auto gap-5 h-[400px] relative lg:px-4">
       <div className="flex justify-center items-center">
         <h1 className="text-4xl">
@@ -54,11 +36,9 @@ export default function Founded() {
         />
       </div>
 
-      <div className="flex flex-col items-center justify-center gap-4 p-3 border-4 border-solid border-main rounded-xl md:flex-row">
-        <h1 className="text-xl md:text-3xl">Founded By </h1>
-        <i className="text-xl text-center md:text-2xl">
-          Level-3 {"(Batch-17)"}
-        </i>
+      <div className="flex flex-col items-center justify-center gap-1 p-3 border-4 border-solid border-main rounded-xl md:flex-row">
+        <h1 className="text-xl md:text-2xl">Founded By</h1>
+        <i className="text-xl text-center md:text-xl">Level-3 {"(Batch-17)"}</i>
       </div>
       <Image
         src={left_arrow}
