@@ -1,6 +1,10 @@
+import connectMongo from "@/app/db/mongoConnect";
 import EventModel from "@/Schemas/EventSchema";
+import { unstable_noStore } from "next/cache";
 
 const getTotalMoneyDonated = async () => {
+  unstable_noStore();
+  await connectMongo();
   try {
     const result = await EventModel.aggregate([
       {
