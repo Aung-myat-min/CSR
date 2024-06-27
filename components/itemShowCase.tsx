@@ -7,9 +7,9 @@ export default function ItemShowCase(props: {
   func: () => {};
 }) {
   return (
-    <div className="w-full aspect-video m-auto" onClick={props.func}>
+    <div className="w-full aspect-video m-auto " onClick={props.func}>
       <div className="">
-        <div className="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30 rounded-3xl">
+        <div className="group relative cursor-pointer items-center justify-center overflow-hidden transition-shadow hover:shadow-xl hover:shadow-black/30 rounded-3xl shadow-[rgba(0,0,0,0.16)_0px_1px_4px]">
           <div className="">
             <Image
               src={props.url}
