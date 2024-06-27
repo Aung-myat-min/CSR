@@ -3,7 +3,7 @@ import { IEvent } from "@/Schemas/EventSchema";
 import EventSwitch from "@/components/EventSwitch";
 import ItemShowCase from "@/components/itemShowCase";
 import { useEffect, useState } from "react";
-import { ClipLoader, SyncLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 
 export default function App() {
   const fetchPreviousEvents = async () => {
@@ -44,15 +44,19 @@ export default function App() {
     });
   };
 
+  const goto = (link: string) => {
+    window.location.href = link;
+  };
+
   return (
-    <main className="w-11/12 m-auto flex-grow">
+    <main className="w-11/12 m-auto flex-grow relative">
       <EventSwitch
         upcomingFunc={handleUpcomingClick}
         previousFunc={handlePreviousClick}
       />
       {loading ? (
         <div className="w-full flex items-center justify-center">
-          <div className="text-center">
+          <div className="flex flex-col gap-4 items-center justify-center absolute top-[50%] left-[50%] -translate-x-2/4 -translate-y-2/4">
             <ClipLoader color="#02598B" size={30} />
             <p className="mt-2 text-lg font-bold">Loading...</p>
           </div>
@@ -64,9 +68,9 @@ export default function App() {
               <ItemShowCase
                 key={item._id}
                 header={item.EventName}
-                description={item.EventDescription}
                 url={item.EventPhotoURL}
                 id={item._id}
+                func={async () => goto(`/events/${item._id}`)}
               />
             ))
           ) : (

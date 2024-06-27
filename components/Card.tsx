@@ -7,7 +7,7 @@ export default function Card() {
   const money = getTotalMoneyDonated();
   const member = getTotalMembers();
   return (
-    <section className="w-11/12 m-auto mt-12 text-center ">
+    <section className="w-11/12 m-auto my-12 text-center ">
       <h2 className="mb-5 font-bold text-3xl">Our Records</h2>
       <div className=" grid lg:grid-cols-3 lg:gap-12 md:grid-cols-2 md:gap-7 gap-4  grid-cols-1 ">
         <div className="bg-primary dark:bg-secondary py-10 rounded-xl font-bold text-xl lg:mx-10 md:mx-3 ">
