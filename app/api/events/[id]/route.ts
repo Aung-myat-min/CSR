@@ -10,8 +10,11 @@ export async function GET(
   try {
     const id = params.id;
     const event = await EventModel.findById(id);
+    if (!event) {
+      return NextResponse.json({ error: "Event not found" }, { status: 404 });
+    }
     return NextResponse.json(event);
   } catch (error) {
-    return NextResponse.json({ error: error });
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }

@@ -1,14 +1,11 @@
 "use client";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import { notFound, useParams, useRouter } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 import { IEvent } from "@/Schemas/EventSchema";
 import { SyncLoader } from "react-spinners";
 import CSRLOGO from "@/public/svg/blue_csr_logo.svg";
 import { numberFormatter } from "./utils/numberFormatter";
-import { combineArraysToString } from "../funcitons/combineArraysToString";
-import { splitStringIntoTwoArrays } from "../funcitons/splitStringIntoTwoArrays";
-import { dateFormatChanger } from "../funcitons/dateFormatter";
 import Inline from "yet-another-react-lightbox/plugins/inline";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
@@ -17,33 +14,58 @@ import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import { combineArraysToString } from "../funcitons/combineArraysToString";
+import { splitStringIntoTwoArrays } from "../funcitons/splitStringIntoTwoArrays";
+import { dateFormatChanger } from "../funcitons/dateFormatter";
 
 export default function Page() {
   const { id } = useParams();
   const router = useRouter();
-  const [event, setEvent] = useState<IEvent>();
+  const [event, setEvent] = useState<IEvent | null>(null);
   const [totalEvents, setTotalEvents] = useState<number>(0);
   const currentIndex = parseInt(Array.isArray(id) ? id[0] : id);
+  const [eventNotFound, setEventNotFound] = useState(false);
 
   const textShadowStyle = {
     textShadow:
       "1px 1px 2px rgba(0,0,0,.7), 0 0 1em rgba(0,0,0,.3), 0 0 0.2em rgba(0,0,0,.2)",
   };
+
   useEffect(() => {
     const fetchEvent = async () => {
-      const res = await fetch("/api/events/" + id);
-      const event = await res.json();
-      setEvent(event);
+      try {
+        const res = await fetch("/api/events/" + id);
+        if (res.status === 404) {
+          setEvent(null);
+          setEventNotFound(true);
+          return;
+        }
+        const event = await res.json();
+        setEvent(event);
+      } catch (error) {
+        console.error(error);
+        setEvent(null);
+        setEventNotFound(true);
+      }
     };
 
     const fetchEvents = async () => {
-      const res = await fetch("/api/events");
-      const events = await res.json();
-      setTotalEvents(events.totalEvents);
+      try {
+        const res = await fetch("/api/events");
+        const events = await res.json();
+        setTotalEvents(events.totalEvents);
+      } catch (error) {
+        console.error(error);
+      }
     };
+
     fetchEvent();
     fetchEvents();
   }, [id]);
+
+  if (eventNotFound) {
+    notFound();
+  }
 
   if (!event) {
     return (
@@ -58,19 +80,14 @@ export default function Page() {
   );
   const date = dateFormatChanger(event.EventDate.toString());
 
-  //TODO: fix this after the database
   const handlePrevious = () => {
-    if (currentIndex === 3) {
-      router.push(`/events/${currentIndex - 2}`);
-    } else {
+    if (currentIndex > 1) {
       router.push(`/events/${currentIndex - 1}`);
     }
   };
 
   const handleNext = () => {
-    if (currentIndex === 1) {
-      router.push(`/events/${currentIndex + 2}`);
-    } else {
+    if (currentIndex < totalEvents) {
       router.push(`/events/${currentIndex + 1}`);
     }
   };
