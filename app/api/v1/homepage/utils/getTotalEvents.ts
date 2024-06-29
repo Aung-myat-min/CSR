@@ -2,7 +2,7 @@ import connectMongo from "@/app/db/mongoConnect";
 import EventModel from "@/Schemas/EventSchema";
 import { unstable_noStore } from "next/cache";
 
-const getTotalEvents = async () => {
+const getTotalEvents = async (): Promise<number> => {
   unstable_noStore();
   await connectMongo();
   try {

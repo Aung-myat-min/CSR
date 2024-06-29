@@ -36,13 +36,14 @@ export default function NavigationBar() {
   const logo = resolvedTheme === "light" ? whiteLogo : blackLogo;
   return (
     <nav className="fixed w-full top-0 left-0 z-[2]">
-      <div className="flex justify-between items-center w-11/12 lg:h-20 md:h-16 h-14  rounded-xl m-auto mt-3 bg-primary dark:bg-secondary relative">
+      <div className="flex justify-between items-center w-11/12 lg:h-20 md:h-16 h-14  rounded-xl m-auto mt-3 bg-primary dark:bg-secondary relative shadow-[rgba(50,50,93,0.25)_0px_2px_5px_-1px,rgba(0,0,0,0.3)_0px_1px_3px_-1px]">
         <Image
           className="lg:ms-5 md:ms-3 my-2 lg:w-24 lg:h-24 md:w-20 md:h-20 w-16 h-16 cursor-pointer"
           src={logo}
           alt="Loading Light/Dark Toggle"
           priority={true}
           title="Loading Light/Dark Toggle"
+          loading="eager"
         />
 
         <ul

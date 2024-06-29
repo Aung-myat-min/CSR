@@ -2,7 +2,6 @@
 import { useState, Suspense } from "react";
 import dynamic from "next/dynamic";
 import EventSwitch from "@/components/EventSwitch";
-import Loading from "@/components/eventspage/loading";
 
 const Events = dynamic(() => import("@/components/eventspage/container"), {
   ssr: false,
