@@ -9,6 +9,14 @@ import { numberFormatter } from "./utils/numberFormatter";
 import { combineArraysToString } from "../funcitons/combineArraysToString";
 import { splitStringIntoTwoArrays } from "../funcitons/splitStringIntoTwoArrays";
 import { dateFormatChanger } from "../funcitons/dateFormatter";
+import Inline from "yet-another-react-lightbox/plugins/inline";
+import "yet-another-react-lightbox/styles.css";
+import "yet-another-react-lightbox/plugins/thumbnails.css";
+import Lightbox from "yet-another-react-lightbox";
+import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
+import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
 export default function Page() {
   const { id } = useParams();
@@ -67,6 +75,20 @@ export default function Page() {
     }
   };
 
+  let photos = [];
+  if (event.EventPhotoList?.length! > 0) {
+    for (let i = 0; i < event.EventPhotoList?.length!; i++) {
+      photos.push({ src: event.EventPhotoList![i] });
+    }
+  }
+  const inline = {
+    style: {
+      width: "100%",
+      maxWidth: "900px",
+      aspectRatio: "3 / 2",
+      margin: "0 auto",
+    },
+  };
   return (
     <main
       className="bg-white bg-opacity-20 dark:bg-black -z-[2] relative"
@@ -121,23 +143,14 @@ export default function Page() {
       </section>
       <section className="w-9/12 m-auto">
         <h2 className="font-bold text-2xl md:text-3xl my-4">More Photos</h2>
-        <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-5 mt-5">
+        <div className="">
           <Suspense fallback="Images are Loading. Please Wait">
             {event.EventPhotoList && event.EventPhotoList.length > 0 ? (
-              event.EventPhotoList.map((image, index) => (
-                <div className="max-w-[600px] h-fit" key={index}>
-                  <Image
-                    className="rounded-2xl"
-                    src={image}
-                    alt="Moment of CSR's Donation"
-                    priority={false}
-                    title="Moment of CSR's Donation"
-                    width={1920}
-                    height={1080}
-                    loading="lazy"
-                  />
-                </div>
-              ))
+              <Lightbox
+                slides={photos}
+                inline={inline}
+                plugins={[Inline, Fullscreen, Slideshow, Thumbnails, Zoom]}
+              />
             ) : (
               <p>No photos at current</p>
             )}
