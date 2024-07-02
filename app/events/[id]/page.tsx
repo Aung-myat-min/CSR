@@ -166,7 +166,8 @@ export default function Page() {
               <Lightbox
                 slides={photos}
                 inline={inline}
-                plugins={[Inline, Fullscreen, Slideshow, Thumbnails, Zoom]}
+                plugins={[Inline, Fullscreen, Slideshow, Zoom]}
+                className="h-[20vh]"
               />
             ) : (
               <p>No photos at current</p>
