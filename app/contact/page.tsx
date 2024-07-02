@@ -5,13 +5,18 @@ import Link from "next/link";
 import TextArea from "@/components/TextArea";
 import Label from "@/components/Label";
 import InputBox from "@/components/InputBox";
-import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { sendEMail } from "../api/v1/contact/utils/sendEmail";
+import ReCaptchaV2 from "react-google-recaptcha";
+
+const sitekey = process.env.NEXT_PUBLIC_CLIENT_CAPTCHA_KEY || "";
 
 export default function App() {
   const emailRef = useRef<HTMLInputElement>(null);
   const messageRef = useRef<HTMLTextAreaElement>(null);
   const [isClient, setIsClient] = useState(false);
+  const [captcha, setCaptcha] = useState<null | string>(null);
+  const captchaRef = useRef<ReCaptchaV2>(null);
 
   useEffect(() => {
     setIsClient(true);
@@ -19,27 +24,36 @@ export default function App() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData();
-    formData.append("email", emailRef.current?.value?.toString() || "");
-    formData.append("message", messageRef.current?.value?.toString() || "");
-    try {
-      await axios.post("/api/contact", formData);
-      return "Message Sent!";
-    } catch (error: any) {
-      throw new Error(
-        error.response?.data?.message ||
-          "An error occurred while sending the message."
-      );
+    if (captcha) {
+      const formData = new FormData();
+      formData.append("email", emailRef.current?.value?.toString() || "");
+      formData.append("message", messageRef.current?.value?.toString() || "");
+      try {
+        const message = await sendEMail(formData);
+        return message;
+      } catch (error: any) {
+        throw new Error(
+          error.response?.data?.message ||
+            "An error occurred while sending the message."
+        );
+      }
+    } else {
+      throw new Error("Please verify that you are not a robot");
     }
   };
 
-  const getToast = (event: React.FormEvent<HTMLFormElement>) => {
+  const getToast = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     toast.promise(handleSubmit(event), {
       loading: "Sending...",
-      success: () => {
-        emailRef.current!.value! = "";
-        messageRef.current!.value! = "";
-        return "Message Sent!";
+      success: (message) => {
+        emailRef.current!.value = "";
+        messageRef.current!.value = "";
+        setCaptcha(null);
+        captchaRef.current!.reset();
+        return message === "sent email successfully"
+          ? "Sent email successfully"
+          : "Sending email failed";
       },
       error: (error) => {
         return error.message;
@@ -76,7 +90,7 @@ export default function App() {
                   <Label label="Your Message" forInput="message" />
                   <TextArea
                     id="message"
-                    placeholder="Leave a comment..."
+                    placeholder="Connect with us..."
                     ref={messageRef}
                     required
                   />
@@ -87,11 +101,16 @@ export default function App() {
                     className="flex items-center"
                   >
                     <FaFacebookF />
-                    <p className="text-xs font-medium  ms-1">
+                    <p className="text-xs font-medium ms-1">
                       GUSTO CSR Program
                     </p>
                   </Link>
                 </div>
+                <ReCaptchaV2
+                  sitekey={sitekey}
+                  onChange={(e) => setCaptcha(e)}
+                  ref={captchaRef}
+                />
                 <button
                   type="submit"
                   className="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-main sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
