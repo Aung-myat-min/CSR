@@ -11,9 +11,10 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import Lightbox from "yet-another-react-lightbox";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
-import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import getTotalEvents from "@/app/api/v1/homepage/utils/getTotalEvents";
+import { getEventById } from "@/app/api/v1/events/[id]/getEventbyId";
 import { combineArraysToString } from "../funcitons/combineArraysToString";
 import { splitStringIntoTwoArrays } from "../funcitons/splitStringIntoTwoArrays";
 import { dateFormatChanger } from "../funcitons/dateFormatter";
@@ -34,13 +35,12 @@ export default function Page() {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const res = await fetch("/api/events/" + id);
-        if (res.status === 404) {
+        const event = await getEventById(currentIndex);
+        if (!event) {
           setEvent(null);
           setEventNotFound(true);
           return;
         }
-        const event = await res.json();
         setEvent(event);
       } catch (error) {
         console.error(error);
@@ -51,9 +51,8 @@ export default function Page() {
 
     const fetchEvents = async () => {
       try {
-        const res = await fetch("/api/events");
-        const events = await res.json();
-        setTotalEvents(events.totalEvents);
+        const events = await getTotalEvents();
+        setTotalEvents(events);
       } catch (error) {
         console.error(error);
       }
@@ -61,7 +60,7 @@ export default function Page() {
 
     fetchEvent();
     fetchEvents();
-  }, [id]);
+  }, [id, currentIndex]);
 
   if (eventNotFound) {
     notFound();
@@ -82,13 +81,21 @@ export default function Page() {
 
   const handlePrevious = () => {
     if (currentIndex > 1) {
-      router.push(`/events/${currentIndex - 1}`);
+      if (currentIndex === 3) {
+        router.push(`/events/${currentIndex - 2}`);
+      } else {
+        router.push(`/events/${currentIndex - 1}`);
+      }
     }
   };
 
   const handleNext = () => {
     if (currentIndex < totalEvents) {
-      router.push(`/events/${currentIndex + 1}`);
+      if (currentIndex === 1) {
+        router.push(`/events/${currentIndex + 2}`);
+      } else {
+        router.push(`/events/${currentIndex + 1}`);
+      }
     }
   };
 
@@ -106,6 +113,7 @@ export default function Page() {
       margin: "0 auto",
     },
   };
+
   return (
     <main
       className="bg-white bg-opacity-20 dark:bg-black -z-[2] relative"
@@ -187,11 +195,9 @@ export default function Page() {
         </button>
         <button
           onClick={handleNext}
-          disabled={parseInt(id as string) >= totalEvents}
+          disabled={currentIndex >= totalEvents}
           className={`px-4 py-2 rounded bg-blue-500 text-white ${
-            parseInt(id as string) >= totalEvents
-              ? "opacity-50 cursor-not-allowed"
-              : ""
+            currentIndex >= totalEvents ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
           Next

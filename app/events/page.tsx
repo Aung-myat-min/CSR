@@ -3,19 +3,19 @@ import { useState, Suspense } from "react";
 import dynamic from "next/dynamic";
 import EventSwitch from "@/components/EventSwitch";
 import Loading from "@/components/eventspage/loading";
+import { getPastEvents } from "../api/v1/events/utils/pastEvents";
+import { getFutureEvents } from "../api/v1/events/utils/futureEvents";
 
 const Events = dynamic(() => import("@/components/eventspage/container"), {
   ssr: false,
 });
 
 const fetchPreviousEvents = async () => {
-  const res = await fetch("/api/events/recents", { cache: "no-store" });
-  const events = res.json();
+  const events = await getPastEvents();
   return events;
 };
 const fetchUpcomingEvents = async () => {
-  const res = await fetch("/api/events/upcoming", { cache: "no-store" });
-  const events = res.json();
+  const events = await getFutureEvents();
   return events;
 };
 

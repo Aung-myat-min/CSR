@@ -6,7 +6,7 @@ import { IEvent } from "@/Schemas/EventSchema";
 export default function Events({
   fetchEvents,
 }: {
-  fetchEvents: () => Promise<IEvent>;
+  fetchEvents: () => Promise<IEvent[]>;
 }) {
   const [events, setEvents] = useState<IEvent[] | null>(null);
   const [loading, setLoading] = useState(true);

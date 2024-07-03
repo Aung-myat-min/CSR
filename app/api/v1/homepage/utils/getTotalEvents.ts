@@ -1,3 +1,4 @@
+"use server";
 import connectMongo from "@/app/db/mongoConnect";
 import EventModel from "@/Schemas/EventSchema";
 import { unstable_noStore } from "next/cache";
