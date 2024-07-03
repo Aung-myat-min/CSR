@@ -8,6 +8,7 @@ import InputBox from "@/components/InputBox";
 import toast, { Toaster } from "react-hot-toast";
 import { sendEMail } from "../api/v1/contact/utils/sendEmail";
 import ReCaptchaV2 from "react-google-recaptcha";
+import DonateUs from "@/components/contactuspage/DonateUs";
 
 const sitekey = process.env.NEXT_PUBLIC_CLIENT_CAPTCHA_KEY || "";
 
@@ -71,8 +72,8 @@ export default function App() {
                 Contact Us
               </h2>
               <p className="mb-8 lg:mb-14 font-light text-center text-gray-500 dark:text-gray-400 sm:text-xl">
-                Got a technical issue? Want to send feedback about features?
-                Need details about our plan? Let us know.
+                Got a technical issue? Want to send feedback about web
+                application? Need details about our plan? Let us know.
               </p>
               <form onSubmit={getToast} className="space-y-8">
                 <div>
@@ -129,6 +130,7 @@ export default function App() {
               />
             </div>
           </section>
+          <DonateUs />
         </main>
       )}
     </>
