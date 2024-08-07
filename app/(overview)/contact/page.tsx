@@ -6,7 +6,7 @@ import TextArea from "@/components/TextArea";
 import Label from "@/components/Label";
 import InputBox from "@/components/InputBox";
 import toast, { Toaster } from "react-hot-toast";
-import { sendEMail } from "../api/v1/contact/utils/sendEmail";
+import { sendEMail } from "@/app/api/v1/contact/utils/sendEmail";
 import ReCaptchaV2 from "react-google-recaptcha";
 import DonateUs from "@/components/contactuspage/DonateUs";
 

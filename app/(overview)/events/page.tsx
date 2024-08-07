@@ -3,8 +3,8 @@ import { useState, Suspense } from "react";
 import dynamic from "next/dynamic";
 import EventSwitch from "@/components/EventSwitch";
 import Loading from "@/components/eventspage/loading";
-import { getPastEvents } from "../api/v1/events/utils/pastEvents";
-import { getFutureEvents } from "../api/v1/events/utils/futureEvents";
+import { getPastEvents } from "@/app/api/v1/events/utils/pastEvents";
+import { getFutureEvents } from "@/app/api/v1/events/utils/futureEvents";
 
 const Events = dynamic(() => import("@/components/eventspage/container"), {
   ssr: false,

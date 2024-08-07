@@ -35,12 +35,15 @@ export default function Page() {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const event = await getEventById(currentIndex);
-        if (!event) {
+        const eventString = await getEventById(currentIndex);
+
+        if (!eventString) {
           setEvent(null);
           setEventNotFound(true);
           return;
         }
+
+        const event: IEvent = JSON.parse(eventString) as IEvent;
         setEvent(event);
       } catch (error) {
         console.error(error);
