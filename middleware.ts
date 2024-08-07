@@ -18,7 +18,7 @@ export default function middleware(req: NextRequest) {
   // Handling for `admin.localhost:3000` domain
   if (hostname === `admin.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
     return NextResponse.rewrite(
-      new URL(`/admin${path === "/" ? "" : path}`, req.url),
+      new URL(`/csrsadmin${path === "/" ? "" : path}`, req.url),
     );
   }
 
