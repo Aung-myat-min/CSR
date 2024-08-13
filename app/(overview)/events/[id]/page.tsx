@@ -24,7 +24,7 @@ export default function Page() {
   const router = useRouter();
   const [event, setEvent] = useState<IEvent | null>(null);
   const [totalEvents, setTotalEvents] = useState<number>(0);
-  const currentIndex = parseInt(Array.isArray(id) ? id[0] : id);
+  const currentIndex = parseInt(Array.isArray(id) ? id[0] : id, 10);
   const [eventNotFound, setEventNotFound] = useState(false);
 
   const textShadowStyle = {
@@ -37,11 +37,18 @@ export default function Page() {
       try {
         const response = await fetch(`/api/v1/events/${currentIndex}`);
         console.log(response);
-        if (response.status !== 200) {
-          const errorData = await response.json();
-          toast.error(
-            errorData.error || "An error occurred while fetching the event."
-          );
+        if (!response.ok) {
+          const contentType = response.headers.get("Content-Type");
+          if (contentType && contentType.includes("application/json")) {
+            const errorData = await response.json();
+            toast.error(
+              errorData.error || "An error occurred while fetching the event."
+            );
+          } else {
+            const text = await response.text();
+            toast.error(text || "An error occurred while fetching the event.");
+          }
+          setEventNotFound(true);
         } else {
           const eventString = await response.json();
           setEvent(eventString);
@@ -69,6 +76,7 @@ export default function Page() {
 
   if (eventNotFound) {
     notFound();
+    return null; // Ensure that the component stops rendering after calling notFound()
   }
 
   if (!event) {
