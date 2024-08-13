@@ -2,9 +2,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import EventModel, { IEvent } from '@/Schemas/EventSchema';
 import { unstable_noStore } from 'next/cache';
+import connectMongo from '@/app/db/mongoConnect';
 
 export async function GET(request: NextRequest) {
   unstable_noStore();
+  await connectMongo();
   try {
     const url = new URL(request.url);
     const id = url.pathname.split('/').pop(); 
