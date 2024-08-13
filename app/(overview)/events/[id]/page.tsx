@@ -14,10 +14,10 @@ import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
 import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import getTotalEvents from "@/app/api/v1/homepage/utils/getTotalEvents";
-import { getEventById } from "@/app/api/v1/events/[id]/getEventbyId";
 import { combineArraysToString } from "../funcitons/combineArraysToString";
 import { splitStringIntoTwoArrays } from "../funcitons/splitStringIntoTwoArrays";
 import { dateFormatChanger } from "../funcitons/dateFormatter";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Page() {
   const { id } = useParams();
@@ -35,16 +35,18 @@ export default function Page() {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const eventString = await getEventById(currentIndex);
-
-        if (!eventString) {
-          setEvent(null);
-          setEventNotFound(true);
-          return;
+        const response = await fetch(`/api/v1/events/${currentIndex}`);
+        console.log(response);
+        if (response.status !== 200) {
+          const errorData = await response.json();
+          toast.error(
+            errorData.error || "An error occurred while fetching the event."
+          );
+        } else {
+          const eventString = await response.json();
+          setEvent(eventString);
+          setEventNotFound(false);
         }
-
-        const event: IEvent = JSON.parse(eventString) as IEvent;
-        setEvent(event);
       } catch (error) {
         console.error(error);
         setEvent(null);
@@ -206,6 +208,7 @@ export default function Page() {
           Next
         </button>
       </section>
+      <Toaster />
     </main>
   );
 }
