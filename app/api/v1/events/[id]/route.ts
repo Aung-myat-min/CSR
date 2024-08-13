@@ -2,7 +2,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import EventModel, { IEvent } from '@/Schemas/EventSchema';
 import { unstable_noStore } from 'next/cache';
-import connectMongo from '@/app/db/mongoConnect';
 
 export async function GET(request: NextRequest) {
   unstable_noStore();
@@ -14,7 +13,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Event ID is required" }, { status: 400 });
     }
 
-    const event = await getEventById(parseInt(id));
+    const event = await EventModel.findById(parseInt(id));
 
     if (!event) {
       return NextResponse.json({ error: "Event not found" }, { status: 404 });
@@ -24,16 +23,5 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error("Error Fetching Event by Id: ", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
-  }
-}
-
-async function getEventById(id: number): Promise<IEvent | null> {
-  unstable_noStore();
-  try {
-    const event: IEvent | null = await EventModel.findById(id);
-    return event;
-  } catch (error) {
-    console.error("Error Fetching Event by Id: ", error);
-    return null;
   }
 }
