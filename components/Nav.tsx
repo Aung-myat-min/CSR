@@ -1,5 +1,5 @@
 "use client";
-import ThemeSwitch from "../app/themes/ThemeSwitch"; // Adjust the path based on your project structure
+import ThemeSwitch from "../app/themes/ThemeSwitch";
 import Image from "next/image";
 import Link from "next/link";
 import whiteLogo from "@/public/images/blue_csr_logo.png";

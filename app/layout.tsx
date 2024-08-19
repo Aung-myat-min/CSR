@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
+import { ViewTransitions } from "next-view-transitions";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,15 +18,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.className} suppressHydrationWarning>
-      <body
-        style={{ scrollBehavior: "smooth" }}
-        className="bg-background text-content dark:bg-content dark:text-background"
-      >
-        <SpeedInsights />
-        <Analytics />
-        {children}
-      </body>
-    </html>
+    <ViewTransitions>
+      <html lang="en" className={inter.className} suppressHydrationWarning>
+        <body
+          style={{ scrollBehavior: "smooth" }}
+          className="bg-background text-content dark:bg-content dark:text-background"
+        >
+          <SpeedInsights />
+          <Analytics />
+          {children}
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }
