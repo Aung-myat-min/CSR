@@ -18,30 +18,18 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { PopoverContent } from "@radix-ui/react-popover";
 import { format } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import ImagePick from "./ImagePick";
 import { Select } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import MemberSelect from "./MemberSelect";
 
 export default function AdminDialog() {
   const [date, setDate] = useState<Date>();
   const [eventTime, setEventTime] = useState(0);
   const form = useForm();
-  const members = [
-    {
-      id: 1,
-      name: "Aung Myat Min",
-    },
-    {
-      id: 2,
-      name: "Phyo Min Khant",
-    },
-    {
-      id: 3,
-      name: "Wai Yan Phone Myint",
-    },
-  ];
+
   return (
     //title
     //description
@@ -56,7 +44,14 @@ export default function AdminDialog() {
         <DialogHeader>
           <DialogTitle>Event Form</DialogTitle>
           <DialogDescription className="h-full">
-            <form action="#" method="post" className="w-full h-full">
+            <form
+              action="#"
+              method="post"
+              className="w-full h-full"
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+            >
               {/* <section className="flex flex-col h-full w-full justify-evenly">
                 <div className="flex flex-col gap-4">
                   <Label htmlFor="title" className="text-lg">
@@ -134,7 +129,7 @@ export default function AdminDialog() {
               {/* MEMBERS SECTION */}
 
               <section>
-                <p className="w-full p-2 bg-slate-400 text-lg text-center rounded">
+                <p className="w-full p-2 bg-slate-400 text-lg text-center rounded text-white">
                   Note: Don't add members if this is a future event.
                 </p>
                 <div>
@@ -148,27 +143,10 @@ export default function AdminDialog() {
                     />
                   </div>
                   <div></div>
-                  <div className="relative w-full max-w-xs">
-                    <input
-                      type="text"
-                      name="member"
-                      id="member"
-                      list="members"
-                      placeholder="Enter member name"
-                      className="w-full px-4 py-2 bg-slate-200 text-black border border-gray-300 rounded"
-                    />
-                    <datalist
-                      id="members"
-                      className="absolute z-10 w-full max-w-xs bg-white border border-gray-300 rounded"
-                      style={{ maxHeight: "200px", overflowY: "auto" }}
-                    >
-                      {members.map((member) => (
-                        <option value={member.name} key={member.id} />
-                      ))}
-                    </datalist>
+                  <div className="relative w-full">
+                    <MemberSelect />
                   </div>
                 </div>
-                <CustomDropdown members={members} />
               </section>
             </form>
           </DialogDescription>
@@ -181,53 +159,3 @@ export default function AdminDialog() {
     </Dialog>
   );
 }
-
-const CustomDropdown = ({ members }) => {
-  const [inputValue, setInputValue] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-
-  const filteredMembers = members.filter((member) =>
-    member.name.toLowerCase().includes(inputValue.toLowerCase())
-  );
-
-  const handleSelect = (value) => {
-    setInputValue(value);
-    setIsOpen(false);
-  };
-
-  return (
-    <div className="relative w-full max-w-xs">
-      <input
-        type="text"
-        name="member"
-        id="member"
-        placeholder="Enter member name"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        onFocus={() => setIsOpen(true)}
-        onBlur={() => setTimeout(() => setIsOpen(false), 100)} // Delay to allow click event on dropdown items
-        className="w-full px-4 py-2 bg-slate-200 text-black border border-gray-300 rounded"
-      />
-      {isOpen && (
-        <div
-          className="absolute z-10 w-full max-w-xs bg-white border border-gray-300 rounded mt-1"
-          style={{ maxHeight: "200px", overflowY: "auto" }}
-        >
-          {filteredMembers.length > 0 ? (
-            filteredMembers.map((member) => (
-              <div
-                key={member.id}
-                onClick={() => handleSelect(member.name)}
-                className="px-4 py-2 cursor-pointer hover:bg-gray-200"
-              >
-                {member.name}
-              </div>
-            ))
-          ) : (
-            <div className="px-4 py-2 text-gray-500">No results</div>
-          )}
-        </div>
-      )}
-    </div>
-  );
-};
