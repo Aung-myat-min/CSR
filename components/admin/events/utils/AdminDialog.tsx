@@ -27,7 +27,6 @@ import MemberSelect from "./MemberSelect";
 
 export default function AdminDialog() {
   const [date, setDate] = useState<Date>();
-  const [eventTime, setEventTime] = useState(0);
   const form = useForm();
 
   return (
@@ -128,24 +127,12 @@ export default function AdminDialog() {
 
               {/* MEMBERS SECTION */}
 
-              <section>
+              <section className="h-full">
                 <p className="w-full p-2 bg-slate-400 text-lg text-center rounded text-white">
                   Note: Don't add members if this is a future event.
                 </p>
-                <div>
-                  <div>
-                    <p>Future Event: </p>
-                    <Switch
-                      value={eventTime}
-                      onChange={() => {
-                        setEventTime(eventTime == 0 ? 1 : 0);
-                      }}
-                    />
-                  </div>
-                  <div></div>
-                  <div className="relative w-full">
-                    <MemberSelect />
-                  </div>
+                <div className="relative w-full h-full flex flex-row items-center">
+                  <MemberSelect />
                 </div>
               </section>
             </form>

@@ -1,6 +1,8 @@
 "use client";
 
+import { Switch } from "@/components/ui/switch";
 import { ChangeEvent, useEffect, useState } from "react";
+import { RxCross2 } from "react-icons/rx";
 
 interface MemberSelectProps {
   id: number;
@@ -33,6 +35,7 @@ export default function MemberSelect() {
     []
   );
   const [searchTerm, setSearchTerm] = useState("");
+  const [eventTime, setEventTime] = useState(0);
 
   // Debounce typing and filter members
   useEffect(() => {
@@ -108,16 +111,63 @@ export default function MemberSelect() {
     }
   };
 
+  //remove member
+  const removeMember = (id: number) => {
+    const theMember = members.find((member) => member.id === id);
+    if (theMember) {
+      setSelectedMembers((members) =>
+        selectedMembers.filter((member) => member.id != id)
+      );
+    }
+  };
+
   return (
     <div className="relative w-full p-1">
+      {/* show selected Members */}
+      <div className={`w-full border my-2 h-56 relative p-2 pt-8`}>
+        <div
+          className={`w-full h-full absolute bg-slate-200 cursor-not-allowed top-0 left-0 ${
+            eventTime === 0 ? "" : "hidden"
+          }`}
+        ></div>
+        <div className="absolute top-2 right-2 flex items-center gap-2">
+          <p className="font-bold">
+            {eventTime === 0 ? "Future Event:" : "Past Event:"}
+          </p>
+          <Switch
+            className=" data-[state=checked]:bg-main shadow-md border-blue-400"
+            value={eventTime}
+            onClick={() => {
+              setEventTime(eventTime === 0 ? 1 : 0);
+            }}
+          />
+        </div>
+
+        <div className="flex flex-row flex-wrap overflow-auto">
+          {selectedMembers.map((member, index) => (
+            <div
+              className="flex flex-row gap-2 rounded-full items-center m-1 bg-main w-fit h-fit p-2 text-white"
+              key={index}
+            >
+              <p>{member.name}</p>
+              <RxCross2
+                className="text-bold cursor-pointer hover:text-red-500"
+                onClick={() => removeMember(member.id)}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Input */}
       <input
         type="text"
         name="member"
         id="member"
         value={searchTerm}
+        disabled={eventTime === 0}
         onChange={handleChange}
-        className="w-full rounded"
+        className="w-full rounded disabled:bg-slate-100 disabled:cursor-not-allowed"
         onKeyDown={navigationMembers}
       />
       {/* Render the dynamic box */}
