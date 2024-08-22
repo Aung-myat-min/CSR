@@ -41,14 +41,18 @@ export default function AdminEventPageContainer() {
   return (
     <main>
       <section className="flex flex-row items-center p-3 gap-4 justify-end">
-        <Button className="flex flex-row gap-1 items-center">
-          <CiCirclePlus /> New
-        </Button>
+        <AdminDialog>
+          <Button className="flex flex-row gap-1 items-center">
+            <CiCirclePlus /> New
+          </Button>
+        </AdminDialog>
         <AdminSelect placeholder="Event Type" items={eventType} />
         <AdminDateRangePick />
       </section>
-      <EventWidget />
-      <AdminDialog />
+
+      <AdminDialog>
+        <EventWidget />
+      </AdminDialog>
     </main>
   );
 }
