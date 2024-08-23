@@ -1,9 +1,10 @@
 "use client";
 import { CrossCircledIcon } from "@radix-ui/react-icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface ImageProps {
   height?: number;
+  url?: string;
 }
 
 const heightClasses = {
@@ -12,25 +13,34 @@ const heightClasses = {
   48: "h-48",
 };
 
-export default function ImagePick({ height }: ImageProps) {
-  if (!height) {
-    height = 32;
-  }
-
+export default function ImagePick({ height = 32, url }: ImageProps) {
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>("");
   const [fileExtension, setFileExtension] = useState<string>("");
 
+  // Load the image from the URL if provided
+  useEffect(() => {
+    if (url) {
+      // Extract the file name and extension from the URL if possible
+      const urlParts = url.split("/").pop()?.split(".");
+      if (urlParts && urlParts.length > 1) {
+        const [name, ext] = [urlParts.slice(0, -1).join("."), urlParts.pop()];
+        setFileName(name);
+        setFileExtension(ext || "");
+      }
+    }
+  }, [url]);
+
   const handleUpload = (file: File) => {
     setFile(file);
-    const filenamespilt = file.name.split(".");
-    const ext = filenamespilt.pop();
-    const removedExtMame = filenamespilt;
+    const filenamesplit = file.name.split(".");
+    const ext = filenamesplit.pop();
+    const removedExtName = filenamesplit.join(".");
     if (ext) {
       setFileExtension(ext);
     }
-    if (removedExtMame) {
-      setFileName(removedExtMame.join());
+    if (removedExtName) {
+      setFileName(removedExtName);
     }
   };
 
@@ -41,16 +51,18 @@ export default function ImagePick({ height }: ImageProps) {
           heightClasses[height as keyof typeof heightClasses]
         }`}
         style={
-          file
+          file || url
             ? {
-                backgroundImage: `url(${URL.createObjectURL(file)})`,
+                backgroundImage: `url(${
+                  file ? URL.createObjectURL(file) : url
+                })`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }
             : {}
         }
       >
-        {!file && (
+        {!file && !url && (
           <>
             <input
               type="file"
@@ -68,10 +80,14 @@ export default function ImagePick({ height }: ImageProps) {
             </p>
           </>
         )}
-        {file && (
+        {(file || url) && (
           <CrossCircledIcon
             className="w-5 h-5 cursor-pointer text-red-500 absolute -top-2 -right-2"
-            onClick={() => setFile(null)}
+            onClick={() => {
+              setFile(null);
+              setFileName("");
+              setFileExtension("");
+            }}
           />
         )}
       </div>

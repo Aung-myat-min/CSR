@@ -47,7 +47,7 @@ export default function AdminEventPageContainer() {
       <Suspense fallback={<EventSkeleton />}>
         <div className="flex flex-row flex-wrap gap-3 w-full h-auto p-2 justify-center">
           {events.map((event) => (
-            <AdminDialog>
+            <AdminDialog event={event}>
               <EventWidget event={event} />
             </AdminDialog>
           ))}

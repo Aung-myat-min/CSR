@@ -1,5 +1,3 @@
-"use client";
-
 import { Switch } from "@/components/ui/switch";
 import { ChangeEvent, useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
@@ -9,7 +7,15 @@ interface MemberSelectProps {
   name: string;
 }
 
-export default function MemberSelect() {
+interface MemberSelect {
+  eventStatus?: boolean;
+  membersFromDB?: MemberSelectProps[];
+}
+
+export default function MemberSelect({
+  eventStatus,
+  membersFromDB,
+}: MemberSelect) {
   const members: MemberSelectProps[] = [
     { id: 1, name: "Aung Myat Min" },
     { id: 2, name: "Phyo Min Khant" },
@@ -36,6 +42,13 @@ export default function MemberSelect() {
   );
   const [searchTerm, setSearchTerm] = useState("");
   const [eventTime, setEventTime] = useState(0);
+
+  // Set default value for eventTime if eventStatus changes
+  useEffect(() => {
+    if (eventStatus != null) {
+      setEventTime(eventStatus ? 1 : 0);
+    }
+  }, [eventStatus]);
 
   // Debounce typing and filter members
   useEffect(() => {
@@ -111,7 +124,7 @@ export default function MemberSelect() {
     }
   };
 
-  //remove member
+  // Remove member
   const removeMember = (id: number) => {
     const theMember = members.find((member) => member.id === id);
     if (theMember) {
@@ -123,7 +136,7 @@ export default function MemberSelect() {
 
   return (
     <div className="relative w-full p-1">
-      {/* show selected Members */}
+      {/* Show selected Members */}
       <div className={`w-full border my-2 h-56 relative p-2 pt-8`}>
         <div
           className={`w-full h-full absolute bg-slate-200 cursor-not-allowed top-0 left-0 ${

@@ -23,13 +23,19 @@ import MemberSelect from "./MemberSelect";
 import { Calendar } from "@/components/ui/calendar";
 import { useForm } from "react-hook-form";
 import CancelButton from "./CancelButton";
+import { IEvent } from "@/Schemas/EventSchema";
 
-export default function AdminDialog({
-  children,
-}: {
+interface AdminDialogProps {
+  event?: IEvent;
   children: React.ReactNode;
-}) {
-  const [date, setDate] = useState<Date>();
+}
+
+export default function AdminDialog({ event, children }: AdminDialogProps) {
+  const eventDate = event?.EventDate ? new Date(event.EventDate) : new Date();
+  // Check if the parsed date is valid
+  const isValidDate = !isNaN(eventDate.getTime());
+  const photoList = event?.EventPhotoList ? event.EventPhotoList : [];
+  const [date, setDate] = useState<Date>(isValidDate ? eventDate : new Date());
   const [currentStep, setCurrentStep] = useState(1);
   const form = useForm();
 
@@ -39,6 +45,12 @@ export default function AdminDialog({
 
   const previousStep = () => {
     setCurrentStep((prevStep) => prevStep - 1);
+  };
+
+  const handleDateSelect = (selectedDate: Date | undefined) => {
+    if (selectedDate) {
+      setDate(selectedDate);
+    }
   };
 
   return (
@@ -63,7 +75,12 @@ export default function AdminDialog({
                     <Label htmlFor="title" className="text-lg">
                       Event Title
                     </Label>
-                    <Input id="title" placeholder="Event Name" type="text" />
+                    <Input
+                      id="title"
+                      placeholder="Event Name"
+                      type="text"
+                      value={event?.EventName}
+                    />
                   </div>
                   <div className="flex flex-col gap-4">
                     <Label htmlFor="description" className="text-lg">
@@ -73,6 +90,7 @@ export default function AdminDialog({
                       id="description"
                       placeholder="description... "
                       rows={4}
+                      value={event?.EventDescription}
                     />
                   </div>
                   <div className="flex flex-col gap-4">
@@ -101,7 +119,7 @@ export default function AdminDialog({
                           className="bg-white"
                           mode="single"
                           selected={date}
-                          onSelect={setDate}
+                          onSelect={handleDateSelect}
                           initialFocus
                         />
                       </PopoverContent>
@@ -114,7 +132,8 @@ export default function AdminDialog({
                     <Input
                       id="donated"
                       placeholder="1,000,000"
-                      type="number" //TODO: format number
+                      type="number"
+                      value={event?.DonatedAmount}
                     />
                   </div>
                 </section>
@@ -125,16 +144,16 @@ export default function AdminDialog({
                 <section className="grid grid-cols-3 h-full gap-4 items-end">
                   <div>
                     <Label className="text-lg">Main Photo</Label>
-                    <ImagePick height={48} />
+                    <ImagePick height={48} url={event?.EventPhotoURL} />
                   </div>
                   <div>
                     <Label className="text-md">Sub Photos</Label>
-                    <ImagePick />
+                    <ImagePick url={photoList[0]} />
                   </div>
-                  <ImagePick />
-                  <ImagePick />
-                  <ImagePick />
-                  <ImagePick />
+                  <ImagePick url={photoList[1]} />
+                  <ImagePick url={photoList[2]} />
+                  <ImagePick url={photoList[3]} />
+                  <ImagePick url={photoList[4]} />
                 </section>
               )}
 
@@ -145,7 +164,7 @@ export default function AdminDialog({
                     Note: Don't add members if this is a future event.
                   </p>
                   <div className="relative w-full h-full flex flex-row items-center">
-                    <MemberSelect />
+                    <MemberSelect eventStatus={event?.Completed} />
                   </div>
                 </section>
               )}
