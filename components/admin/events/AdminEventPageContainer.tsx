@@ -4,24 +4,14 @@ import { AdminDateRangePick } from "./utils/AdminDateRangePick";
 import AdminSelect, { SelectItem } from "./utils/AdminSelect";
 import EventWidget from "./utils/EventWidget";
 import { CiCirclePlus } from "react-icons/ci";
-import { useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { IEvent } from "@/Schemas/EventSchema";
 import { getEvents } from "@/app/api/v1/events/utils/getEvents";
 import AdminDialog from "./utils/AdminDialog";
-import { useForm } from "react-hook-form";
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import EventSkeleton from "@/components/Loadings/AdminLoadings/EventSkeleton";
 
 export default function AdminEventPageContainer() {
-  // const [events, setEvents] = useState<IEvent[]>([]);
-  const form = useForm();
+  const [events, setEvents] = useState<IEvent[]>([]);
   const eventType: SelectItem[] = [
     {
       value: "past",
@@ -33,10 +23,14 @@ export default function AdminEventPageContainer() {
     },
   ];
 
-  // const getEventsFromDB = async()=>{
-  //   const e = await getEvents();
-  //   setEvents(e);
-  // }
+  const getEventsFromDB = async () => {
+    const e = await getEvents();
+    setEvents(JSON.parse(e) as IEvent[]);
+  };
+
+  useEffect(() => {
+    getEventsFromDB();
+  }, []);
 
   return (
     <main>
@@ -50,9 +44,15 @@ export default function AdminEventPageContainer() {
         <AdminDateRangePick />
       </section>
 
-      <AdminDialog>
-        <EventWidget />
-      </AdminDialog>
+      <Suspense fallback={<EventSkeleton />}>
+        <div className="flex flex-row flex-wrap gap-3 w-full h-auto p-2 justify-center">
+          {events.map((event) => (
+            <AdminDialog>
+              <EventWidget event={event} />
+            </AdminDialog>
+          ))}
+        </div>
+      </Suspense>
     </main>
   );
 }

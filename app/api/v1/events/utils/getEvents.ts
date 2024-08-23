@@ -3,11 +3,11 @@
 import connectMongo from "@/app/db/mongoConnect";
 import EventModel, { IEvent } from "@/Schemas/EventSchema";
 
-export async function getEvents(): Promise<IEvent[]> {
+export async function getEvents(): Promise<string> {
     await connectMongo();
     try {
         const events = await EventModel.find();
-        return events;
+        return JSON.stringify(events);
     } catch (error) {
         if (error instanceof Error) {
             console.error("Error occurred while fetching events:", error.message);

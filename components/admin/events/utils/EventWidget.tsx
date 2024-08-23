@@ -1,19 +1,26 @@
 import Image from "next/image";
 import React from "react";
-import testImg from "@/public/images/founded.jpg";
+import { IEvent } from "../../../../Schemas/EventSchema";
 
-export default function EventWidget() {
+export default function EventWidget({ event }: { event: IEvent }) {
+  const eventDate = new Date(event.EventDate);
+
   return (
     <div className="w-96 aspect-[5/2] bg-gray-200 flex flex-row items-center rounded-lg border-2 border-main p-4 shadow-md cursor-pointer hover:bg-gray-100">
-      <div className="flex-[3] flex flex-col justify-evenly h-full items-start">
-        <h2 className="text-lg font-semibold">Event Name</h2>
-        <time>12/02/2022</time>
+      <div className="flex-[3] flex flex-col justify-evenly h-full items-start pr-4">
+        <p className="text-lg font-semibold text-left">{event.EventName}</p>
+        <time>{eventDate.toDateString()}</time>
       </div>
-      <Image
-        src={testImg}
-        alt="test image"
-        className="h-full flex-1 w-auto rounded-lg"
-      />
+      <div className="flex-[2] h-full w-full relative">
+        <Image
+          src={event.EventPhotoURL}
+          layout="fill"
+          objectFit="cover"
+          alt="Event image"
+          className="rounded-lg"
+          quality={100}
+        />
+      </div>
     </div>
   );
 }
