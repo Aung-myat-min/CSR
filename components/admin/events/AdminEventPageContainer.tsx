@@ -12,20 +12,33 @@ import EventSkeleton from "@/components/Loadings/AdminLoadings/EventSkeleton";
 
 export default function AdminEventPageContainer() {
   const [events, setEvents] = useState<IEvent[]>([]);
-  const eventType: SelectItem[] = [
+  const [eventType, setEventType] = useState("0");
+  const [loading, setLoading] = useState(true);
+
+  const eventTypes: SelectItem[] = [
     {
-      value: "past",
+      value: 0,
+      label: "Event Type",
+    },
+    {
+      value: 1,
       label: "Past",
     },
     {
-      value: "upcoming",
+      value: 2,
       label: "Upcoming",
     },
   ];
 
+  const handleEventType = (eventNumber: string) => {
+    setEventType(eventNumber);
+  };
+
   const getEventsFromDB = async () => {
+    setLoading(true);
     const e = await getEvents();
     setEvents(JSON.parse(e) as IEvent[]);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -40,18 +53,26 @@ export default function AdminEventPageContainer() {
             <CiCirclePlus /> New
           </Button>
         </AdminDialog>
-        <AdminSelect placeholder="Event Type" items={eventType} />
+        <AdminSelect
+          placeholder="Event Type"
+          items={eventTypes}
+          func={handleEventType}
+        />
         <AdminDateRangePick />
       </section>
 
       <Suspense fallback={<EventSkeleton />}>
-        <div className="flex flex-row flex-wrap gap-3 w-full h-auto p-2 justify-center">
-          {events.map((event) => (
-            <AdminDialog event={event}>
-              <EventWidget event={event} />
-            </AdminDialog>
-          ))}
-        </div>
+        {loading ? (
+          <EventSkeleton />
+        ) : (
+          <div className="flex flex-row flex-wrap gap-3 w-full h-auto p-2 justify-center">
+            {events.map((event) => (
+              <AdminDialog event={event} key={event.id}>
+                <EventWidget event={event} filter={eventType} />
+              </AdminDialog>
+            ))}
+          </div>
+        )}
       </Suspense>
     </main>
   );
