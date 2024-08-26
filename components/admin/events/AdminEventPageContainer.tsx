@@ -9,11 +9,13 @@ import { IEvent } from "@/Schemas/EventSchema";
 import { getEvents } from "@/app/api/v1/events/utils/getEvents";
 import AdminDialog from "./utils/AdminDialog";
 import EventSkeleton from "@/components/Loadings/AdminLoadings/EventSkeleton";
+import { DateRange } from "react-day-picker";
 
 export default function AdminEventPageContainer() {
   const [events, setEvents] = useState<IEvent[]>([]);
   const [eventType, setEventType] = useState("0");
   const [loading, setLoading] = useState(true);
+  const [date, setDate] = useState<DateRange | undefined>();
 
   const eventTypes: SelectItem[] = [
     {
@@ -29,9 +31,13 @@ export default function AdminEventPageContainer() {
       label: "Upcoming",
     },
   ];
-
   const handleEventType = (eventNumber: string) => {
     setEventType(eventNumber);
+  };
+
+  const handleDateFilter = (dateR: DateRange) => {
+    setDate(dateR);
+    console.log(date);
   };
 
   const getEventsFromDB = async () => {
@@ -40,7 +46,6 @@ export default function AdminEventPageContainer() {
     setEvents(JSON.parse(e) as IEvent[]);
     setLoading(false);
   };
-
   useEffect(() => {
     getEventsFromDB();
   }, []);
@@ -58,7 +63,7 @@ export default function AdminEventPageContainer() {
           items={eventTypes}
           func={handleEventType}
         />
-        <AdminDateRangePick />
+        <AdminDateRangePick value={date} setValue={setDate} />
       </section>
 
       <Suspense fallback={<EventSkeleton />}>
@@ -68,7 +73,7 @@ export default function AdminEventPageContainer() {
           <div className="flex flex-row flex-wrap gap-3 w-full h-auto p-2 justify-center">
             {events.map((event) => (
               <AdminDialog event={event} key={event.id}>
-                <EventWidget event={event} filter={eventType} />
+                <EventWidget event={event} filter={eventType} dayRange={date} />
               </AdminDialog>
             ))}
           </div>

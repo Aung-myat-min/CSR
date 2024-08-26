@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { CalendarIcon } from "@radix-ui/react-icons";
-import { addDays, format } from "date-fns";
+import { format } from "date-fns";
 import { DateRange } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
@@ -14,11 +14,16 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
+interface AdminDateRangePickerProps {
+  className?: React.HTMLAttributes<HTMLDivElement>;
+  value: DateRange | undefined;
+  setValue: React.Dispatch<React.SetStateAction<DateRange | undefined>>;
+}
 export function AdminDateRangePick({
   className,
-}: React.HTMLAttributes<HTMLDivElement>) {
-  const [date, setDate] = React.useState<DateRange | undefined>();
-
+  value,
+  setValue,
+}: AdminDateRangePickerProps) {
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover>
@@ -28,18 +33,18 @@ export function AdminDateRangePick({
             variant={"outline"}
             className={cn(
               "w-[300px] justify-start text-left font-normal",
-              !date && "text-muted-foreground"
+              !value && "text-muted-foreground"
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {date?.from ? (
-              date.to ? (
+            {value?.from ? (
+              value.to ? (
                 <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")}
+                  {format(value.from, "LLL dd, y")} -{" "}
+                  {format(value.to, "LLL dd, y")}
                 </>
               ) : (
-                format(date.from, "LLL dd, y")
+                format(value.from, "LLL dd, y")
               )
             ) : (
               <span>Pick a date</span>
@@ -50,9 +55,9 @@ export function AdminDateRangePick({
           <Calendar
             initialFocus
             mode="range"
-            defaultMonth={date?.from}
-            selected={date}
-            onSelect={setDate}
+            defaultMonth={value?.from}
+            selected={value}
+            onSelect={setValue}
             numberOfMonths={2}
           />
         </PopoverContent>
