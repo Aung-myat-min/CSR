@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { PopoverContent } from "@radix-ui/react-popover";
 import { format } from "date-fns";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import ImagePick from "./ImagePick";
 import MemberSelect from "./MemberSelect";
 import { Calendar } from "@/components/ui/calendar";
@@ -32,12 +32,34 @@ interface AdminDialogProps {
 
 export default function AdminDialog({ event, children }: AdminDialogProps) {
   const eventDate = event?.EventDate ? new Date(event.EventDate) : new Date();
-  // Check if the parsed date is valid
-  const isValidDate = !isNaN(eventDate.getTime());
-  const photoList = event?.EventPhotoList ? event.EventPhotoList : [];
-  const [date, setDate] = useState<Date>(isValidDate ? eventDate : new Date());
+  const isValidDate = !isNaN(eventDate.getTime()); // Check if the parsed date is valid
   const [currentStep, setCurrentStep] = useState(1);
-  const form = useForm();
+
+  //first section
+  const [title, setTitle] = useState(event?.EventName || "");
+  const [description, setDescription] = useState(event?.EventDescription || "");
+  const [donatedAmount, setDonatedAmount] = useState(event?.DonatedAmount);
+  const [date, setDate] = useState<Date>(isValidDate ? eventDate : new Date());
+
+  //second section
+  const [mainPhoto, setMainPhoto] = useState<File | string | undefined>(
+    event?.EventPhotoURL
+  );
+
+  //set the sub photos if they are not set (undefined)
+  const photoList = event?.EventPhotoList
+    ? [
+        ...event.EventPhotoList,
+        ...Array(5 - event.EventPhotoList.length).fill(undefined),
+      ].slice(0, 5)
+    : [undefined, undefined, undefined, undefined, undefined];
+
+  const [eventPhotos, setEventPhotos] =
+    useState<(File | string | undefined)[]>(photoList);
+
+  //third section
+  const [eventType, setEventType] = useState(event?.Completed);
+  const [members, setMembers] = useState(event?.MemberLists);
 
   const nextStep = () => {
     setCurrentStep((prevStep) => prevStep + 1);
@@ -53,6 +75,10 @@ export default function AdminDialog({ event, children }: AdminDialogProps) {
     }
   };
 
+  const handleFormSubmit = () => {
+    console.log(title, description, donatedAmount, date);
+  };
+
   return (
     <Dialog>
       <DialogTrigger>{children}</DialogTrigger>
@@ -60,14 +86,7 @@ export default function AdminDialog({ event, children }: AdminDialogProps) {
         <DialogHeader>
           <DialogTitle>Event Form</DialogTitle>
           <DialogDescription className="h-full">
-            <form
-              action="#"
-              method="post"
-              className="w-full h-full"
-              onSubmit={(e) => {
-                e.preventDefault();
-              }}
-            >
+            <form action="#" method="post" className="w-full h-full">
               {/* Section 1: Event Details */}
               {currentStep === 1 && (
                 <section className="flex flex-col h-full w-full justify-evenly">
@@ -79,7 +98,10 @@ export default function AdminDialog({ event, children }: AdminDialogProps) {
                       id="title"
                       placeholder="Event Name"
                       type="text"
-                      value={event?.EventName}
+                      value={title}
+                      onChange={(v) => {
+                        setTitle(v.target.value);
+                      }}
                     />
                   </div>
                   <div className="flex flex-col gap-4">
@@ -90,7 +112,10 @@ export default function AdminDialog({ event, children }: AdminDialogProps) {
                       id="description"
                       placeholder="description... "
                       rows={4}
-                      value={event?.EventDescription}
+                      value={description}
+                      onChange={(v) => {
+                        setDescription(v.target.value);
+                      }}
                     />
                   </div>
                   <div className="flex flex-col gap-4">
@@ -133,7 +158,10 @@ export default function AdminDialog({ event, children }: AdminDialogProps) {
                       id="donated"
                       placeholder="1,000,000"
                       type="number"
-                      value={event?.DonatedAmount}
+                      value={donatedAmount}
+                      onChange={(v) => {
+                        setDonatedAmount(parseInt(v.target.value));
+                      }}
                     />
                   </div>
                 </section>
@@ -144,16 +172,40 @@ export default function AdminDialog({ event, children }: AdminDialogProps) {
                 <section className="grid grid-cols-3 h-full gap-4 items-end">
                   <div>
                     <Label className="text-lg">Main Photo</Label>
-                    <ImagePick height={48} url={event?.EventPhotoURL} />
+                    <ImagePick
+                      height={48}
+                      img={mainPhoto}
+                      setStateAction={setMainPhoto}
+                    />
                   </div>
                   <div>
                     <Label className="text-md">Sub Photos</Label>
-                    <ImagePick url={photoList[0]} />
+                    <ImagePick
+                      img={eventPhotos[0]}
+                      setStateAction={setEventPhotos}
+                      index={0}
+                    />
                   </div>
-                  <ImagePick url={photoList[1]} />
-                  <ImagePick url={photoList[2]} />
-                  <ImagePick url={photoList[3]} />
-                  <ImagePick url={photoList[4]} />
+                  <ImagePick
+                    img={eventPhotos[1]}
+                    setStateAction={setEventPhotos}
+                    index={1}
+                  />
+                  <ImagePick
+                    img={eventPhotos[2]}
+                    setStateAction={setEventPhotos}
+                    index={2}
+                  />
+                  <ImagePick
+                    img={eventPhotos[3]}
+                    setStateAction={setEventPhotos}
+                    index={3}
+                  />
+                  <ImagePick
+                    img={eventPhotos[4]}
+                    setStateAction={setEventPhotos}
+                    index={4}
+                  />
                 </section>
               )}
 
@@ -181,11 +233,18 @@ export default function AdminDialog({ event, children }: AdminDialogProps) {
           )}
           {currentStep < 3 && <Button onClick={nextStep}>Next</Button>}
           {currentStep === 3 && (
-            <CancelButton func={() => {}}>
-              <Button type="submit" className="bg-green-500">
-                Done
-              </Button>
-            </CancelButton>
+            // <CancelButton func={}>
+            //   <Button type="submit" className="bg-green-500">
+            //     Done
+            //   </Button>
+            // </CancelButton>
+            <Button
+              type="submit"
+              className="bg-green-500"
+              onClick={handleFormSubmit}
+            >
+              Done
+            </Button>
           )}
         </DialogFooter>
       </DialogContent>

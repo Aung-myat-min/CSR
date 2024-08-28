@@ -177,6 +177,7 @@ export default function MemberSelect({
         type="text"
         name="member"
         id="member"
+        placeholder="Type member name here..."
         value={searchTerm}
         disabled={eventTime === 0}
         onChange={handleChange}

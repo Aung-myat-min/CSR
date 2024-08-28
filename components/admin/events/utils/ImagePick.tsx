@@ -4,7 +4,9 @@ import { useState, useEffect } from "react";
 
 interface ImageProps {
   height?: number;
-  url?: string;
+  img: File | string | undefined;
+  setStateAction: React.Dispatch<React.SetStateAction<any>>;
+  index?: number;
 }
 
 const heightClasses = {
@@ -13,34 +15,33 @@ const heightClasses = {
   48: "h-48",
 };
 
-export default function ImagePick({ height = 32, url }: ImageProps) {
-  const [file, setFile] = useState<File | null>(null);
-  const [fileName, setFileName] = useState<string>("");
-  const [fileExtension, setFileExtension] = useState<string>("");
-
-  // Load the image from the URL if provided
-  useEffect(() => {
-    if (url) {
-      // Extract the file name and extension from the URL if possible
-      const urlParts = url.split("/").pop()?.split(".");
-      if (urlParts && urlParts.length > 1) {
-        const [name, ext] = [urlParts.slice(0, -1).join("."), urlParts.pop()];
-        setFileName(name);
-        setFileExtension(ext || "");
-      }
-    }
-  }, [url]);
-
+export default function ImagePick({
+  height = 32,
+  img,
+  setStateAction,
+  index,
+}: ImageProps) {
   const handleUpload = (file: File) => {
-    setFile(file);
-    const filenamesplit = file.name.split(".");
-    const ext = filenamesplit.pop();
-    const removedExtName = filenamesplit.join(".");
-    if (ext) {
-      setFileExtension(ext);
+    if (typeof index === "number") {
+      setStateAction((prev: (File | undefined)[]) => {
+        const updatedFiles = [...prev];
+        updatedFiles[index] = file;
+        return updatedFiles;
+      });
+    } else {
+      setStateAction(file);
     }
-    if (removedExtName) {
-      setFileName(removedExtName);
+  };
+
+  const handleRemove = () => {
+    if (typeof index === "number") {
+      setStateAction((prev: (File | undefined)[]) => {
+        const updatedFiles = [...prev];
+        updatedFiles[index] = undefined;
+        return updatedFiles;
+      });
+    } else {
+      setStateAction(undefined);
     }
   };
 
@@ -51,10 +52,10 @@ export default function ImagePick({ height = 32, url }: ImageProps) {
           heightClasses[height as keyof typeof heightClasses]
         }`}
         style={
-          file || url
+          img
             ? {
                 backgroundImage: `url(${
-                  file ? URL.createObjectURL(file) : url
+                  img instanceof File ? URL.createObjectURL(img) : img
                 })`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
@@ -62,7 +63,7 @@ export default function ImagePick({ height = 32, url }: ImageProps) {
             : {}
         }
       >
-        {!file && !url && (
+        {!img && (
           <>
             <input
               type="file"
@@ -80,28 +81,12 @@ export default function ImagePick({ height = 32, url }: ImageProps) {
             </p>
           </>
         )}
-        {(file || url) && (
+        {img && (
           <CrossCircledIcon
             className="w-5 h-5 cursor-pointer text-red-500 absolute -top-2 -right-2"
-            onClick={() => {
-              setFile(null);
-              setFileName("");
-              setFileExtension("");
-            }}
+            onClick={handleRemove}
           />
         )}
-      </div>
-      <div className="w-full border rounded-md flex flex-row items-center gap-1">
-        <input
-          type="text"
-          name="file-name"
-          id="file-name"
-          placeholder="file name"
-          className="border-none flex-3 rounded-md"
-          value={fileName || ""}
-          readOnly
-        />
-        <p>.{fileExtension || "jpg"}</p>
       </div>
     </div>
   );

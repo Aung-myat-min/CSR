@@ -35,20 +35,21 @@ export default function AdminEventPageContainer() {
     setEventType(eventNumber);
   };
 
-  const handleDateFilter = (dateR: DateRange) => {
-    setDate(dateR);
-    console.log(date);
-  };
-
   const getEventsFromDB = async () => {
     setLoading(true);
     const e = await getEvents();
     setEvents(JSON.parse(e) as IEvent[]);
     setLoading(false);
+    console.log(events);
   };
   useEffect(() => {
     getEventsFromDB();
   }, []);
+
+  const handleResetFilter = () => {
+    setEventType("0");
+    setDate(undefined);
+  };
 
   return (
     <main>
@@ -64,6 +65,9 @@ export default function AdminEventPageContainer() {
           func={handleEventType}
         />
         <AdminDateRangePick value={date} setValue={setDate} />
+        <Button type="reset" onClick={handleResetFilter}>
+          Reset
+        </Button>
       </section>
 
       <Suspense fallback={<EventSkeleton />}>
