@@ -41,7 +41,6 @@ const MemberSchema: Schema = new Schema({
   },
   Email: { type: String, required: true },
   Photo: { type: Buffer, required: true },
-  EventList: [{ type: Schema.Types.ObjectId, ref: "Event", required: false, default:[] }],
 });
 
 // Compile the model

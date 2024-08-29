@@ -17,13 +17,14 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { PopoverContent } from "@radix-ui/react-popover";
 import { format } from "date-fns";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ImagePick from "./ImagePick";
-import MemberSelect from "./MemberSelect";
+import MemberSelect, { MemberSelectProps } from "./MemberSelect";
 import { Calendar } from "@/components/ui/calendar";
 import { useForm } from "react-hook-form";
 import CancelButton from "./CancelButton";
 import { IEvent } from "@/Schemas/EventSchema";
+import { fetchMemberDetails } from "@/app/csrsadmin/apis/members/admin_members";
 
 interface AdminDialogProps {
   event?: IEvent;
@@ -58,8 +59,28 @@ export default function AdminDialog({ event, children }: AdminDialogProps) {
     useState<(File | string | undefined)[]>(photoList);
 
   //third section
-  const [eventType, setEventType] = useState(event?.Completed);
-  const [members, setMembers] = useState(event?.MemberLists);
+  const [eventTime, setEventTime] = useState(event?.Completed);
+  const [members, setMembers] = useState<MemberSelectProps[]>([]);
+
+  // Fetch member details based on the member IDs
+  useEffect(() => {
+    async function loadMembers() {
+      try {
+        if (event?.MemberLists) {
+          const memberData = await fetchMemberDetails(event.MemberLists);
+          if (typeof memberData == "string") {
+            setMembers(JSON.parse(memberData) as MemberSelectProps[]);
+          } else {
+            alert("Fetching Members for existing members went wrong");
+          }
+        }
+      } catch (error) {
+        console.error("Failed to load members:", error);
+      }
+    }
+
+    loadMembers();
+  }, [event?.MemberLists]);
 
   const nextStep = () => {
     setCurrentStep((prevStep) => prevStep + 1);
@@ -216,7 +237,12 @@ export default function AdminDialog({ event, children }: AdminDialogProps) {
                     Note: Don't add members if this is a future event.
                   </p>
                   <div className="relative w-full h-full flex flex-row items-center">
-                    <MemberSelect eventStatus={event?.Completed} />
+                    <MemberSelect
+                      eventTime={eventTime}
+                      setEventStatus={setEventTime}
+                      selectedMembers={members}
+                      setSelectedMembers={setMembers}
+                    />
                   </div>
                 </section>
               )}

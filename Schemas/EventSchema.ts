@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
-import MemberModel, { IMember } from "./MemberSchema";
+import { IMember } from "./MemberSchema";
 
 export interface IEvent extends Document {
   _id: number;
@@ -9,8 +9,8 @@ export interface IEvent extends Document {
   EventPhotoList?: string[];
   DonatedAmount?: number;
   EventDate: Date;
-  Completed: true | false;
-  MemberLists?: IMember[];
+  Completed: boolean;
+  MemberLists?: number[];
 }
 
 const EventSchema: Schema = new Schema({
@@ -22,9 +22,8 @@ const EventSchema: Schema = new Schema({
   DonatedAmount: { type: Number, required: false },
   EventDate: { type: Date, required: true },
   Completed: { type: Boolean, required: true },
-  MemberLists:[{type: Schema.Types.ObjectId, ref: "Member", required: false, default:[]}],
+  MemberLists: [{ type: [Number], required: false, default: [] }],
 });
-
 
 const EventModel =
   mongoose.models.Event || mongoose.model<IEvent>("Event", EventSchema);
