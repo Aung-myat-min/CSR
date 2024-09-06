@@ -23,8 +23,10 @@ import MemberSelect, { MemberSelectProps } from "./MemberSelect";
 import { Calendar } from "@/components/ui/calendar";
 import { useForm } from "react-hook-form";
 import CancelButton from "./CancelButton";
-import { IEvent } from "@/Schemas/EventSchema";
+import { IEvent, IEventData } from "@/Schemas/EventSchema";
 import { fetchMemberDetails } from "@/app/csrsadmin/apis/members/admin_members";
+import MemberList from "@/app/(overview)/about/page";
+import { updateEvent } from "@/app/csrsadmin/apis/events/admin_events";
 
 interface AdminDialogProps {
   event?: IEvent;
@@ -96,8 +98,26 @@ export default function AdminDialog({ event, children }: AdminDialogProps) {
     }
   };
 
-  const handleFormSubmit = () => {
-    console.log(title, description, donatedAmount, date);
+  const handleFormSubmit = async () => {
+    const memberIdList = members.map((member: MemberSelectProps) => member._id);
+    console.log(Array.isArray(memberIdList));
+    console.log(memberIdList);
+    const updateEventData: IEventData = {
+      _id: event!._id,
+      EventName: title,
+      EventDescription: description,
+      EventPhotoURL: mainPhoto as string,
+      EventPhotoList: photoList as string[],
+      DonatedAmount: donatedAmount,
+      EventDate: eventDate,
+      Completed: eventTime ?? false,
+      MemberLists: memberIdList,
+    };
+
+    const updatedEvent = await updateEvent(updateEventData);
+    if (updatedEvent == null) {
+      alert("Sorry, something went wrong!");
+    }
   };
 
   return (

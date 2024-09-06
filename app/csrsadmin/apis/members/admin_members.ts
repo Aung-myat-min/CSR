@@ -3,13 +3,18 @@ import connectMongo from "@/app/db/mongoConnect";
 import { MemberSelectProps } from "@/components/admin/events/utils/MemberSelect";
 import MemberModel from "@/Schemas/MemberSchema";
 
+/**
+ * Fetches members by their IDs and returns them as a JSON string.
+ * @param {number[]} memberIds IDs of the members to fetch
+ * @returns {Promise<String | null>} The members as a JSON string, or null if there was an error.
+ */
 async function fetchMemberDetails(memberIds: number[]): Promise<String | null> {
   await connectMongo();
   try {
     const members: MemberSelectProps[] = await MemberModel.find(
-      { _id: { $in: memberIds } },
+      { _id: { $in: memberIds[0] } }, //I do this because of an error
       { Name: 1, Batch: 1 }
-    ).exec();
+    );
 
     return JSON.stringify(members);
   } catch (error) {
