@@ -1,4 +1,5 @@
 "use client";
+import { deletePhoto } from "@/app/csrsadmin/apis/events/admin_events";
 import { CrossCircledIcon } from "@radix-ui/react-icons";
 import { useState, useEffect } from "react";
 
@@ -33,8 +34,14 @@ export default function ImagePick({
     }
   };
 
-  const handleRemove = () => {
+  const handleRemove = async () => {
     if (typeof index === "number") {
+      if (img && typeof img === "string") {
+        const result = await deletePhoto(img);
+        if (result == null) {
+          alert("Error! Deleting Image!");
+        }
+      }
       setStateAction((prev: (File | undefined)[]) => {
         const updatedFiles = [...prev];
         updatedFiles[index] = undefined;

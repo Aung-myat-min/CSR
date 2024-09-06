@@ -26,7 +26,10 @@ import CancelButton from "./CancelButton";
 import { IEvent, IEventData } from "@/Schemas/EventSchema";
 import { fetchMemberDetails } from "@/app/csrsadmin/apis/members/admin_members";
 import MemberList from "@/app/(overview)/about/page";
-import { updateEvent } from "@/app/csrsadmin/apis/events/admin_events";
+import {
+  updateEvent,
+  uploadPhotoToBlob,
+} from "@/app/csrsadmin/apis/events/admin_events";
 
 interface AdminDialogProps {
   event?: IEvent;
@@ -100,25 +103,70 @@ export default function AdminDialog({ event, children }: AdminDialogProps) {
 
   const handleFormSubmit = async () => {
     const memberIdList = members.map((member: MemberSelectProps) => member._id);
-    console.log(Array.isArray(memberIdList));
-    console.log(memberIdList);
+
+    // Upload main photo if it's a File
+    if (mainPhoto instanceof File) {
+      try {
+        const mainPhotoUrl = await uploadPhoto(mainPhoto);
+        if (mainPhotoUrl) {
+          setMainPhoto(mainPhotoUrl); // Set the uploaded URL back to the state
+        }
+      } catch (error) {
+        console.error("Failed to upload main photo:", error);
+      }
+    }
+
+    // Iterate over eventPhotos, upload each one if it's a File
+    const uploadedPhotos = await Promise.all(
+      eventPhotos.map(async (photo, index) => {
+        if (photo instanceof File) {
+          try {
+            const photoUrl = await uploadPhoto(photo);
+            return photoUrl;
+          } catch (error) {
+            console.error(`Failed to upload photo ${index}:`, error);
+            return photo;
+          }
+        } else {
+          return photo; // Return the existing photo URL if it's not a File
+        }
+      })
+    );
+
+    setEventPhotos(uploadedPhotos as (string | undefined)[]); // Update the state with the uploaded URLs
+
+    // Continue with form submission logic here (e.g., updating the event)
     const updateEventData: IEventData = {
       _id: event!._id,
       EventName: title,
       EventDescription: description,
       EventPhotoURL: mainPhoto as string,
-      EventPhotoList: photoList as string[],
+      EventPhotoList: uploadedPhotos as string[],
       DonatedAmount: donatedAmount,
-      EventDate: eventDate,
+      EventDate: date,
       Completed: eventTime ?? false,
       MemberLists: memberIdList,
     };
 
     const updatedEvent = await updateEvent(updateEventData);
-    if (updatedEvent == null) {
+    if (!updatedEvent) {
       alert("Sorry, something went wrong!");
     }
   };
+
+  async function uploadPhoto(image: File): Promise<string | null> {
+    const formData = new FormData();
+    formData.append("image", image); // 'image' should match the backend field name
+
+    try {
+      const response = await uploadPhotoToBlob(formData);
+
+      return response;
+    } catch (error) {
+      console.error("Failed to upload image:", error);
+      return null;
+    }
+  }
 
   return (
     <Dialog>
@@ -127,7 +175,7 @@ export default function AdminDialog({ event, children }: AdminDialogProps) {
         <DialogHeader>
           <DialogTitle>Event Form</DialogTitle>
           <DialogDescription className="h-full">
-            <form action="#" method="post" className="w-full h-full">
+            <div className="w-full h-full">
               {/* Section 1: Event Details */}
               {currentStep === 1 && (
                 <section className="flex flex-col h-full w-full justify-evenly">
@@ -266,7 +314,7 @@ export default function AdminDialog({ event, children }: AdminDialogProps) {
                   </div>
                 </section>
               )}
-            </form>
+            </div>
           </DialogDescription>
         </DialogHeader>
 
