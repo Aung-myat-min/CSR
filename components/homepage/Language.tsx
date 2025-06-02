@@ -16,9 +16,7 @@ export default function LanguageToggle() {
       <button
         onClick={toggleLanguage}
         className={`relative inline-flex items-center w-20  py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-          language === "en"
-            ? "bg-indigo-600 text-white"
-            : "bg-gray-200 text-gray-800"
+          language === "en" ? "bg-indigo-700 " : "bg-indigo-700 "
         }`}
       >
         <span
@@ -33,8 +31,8 @@ export default function LanguageToggle() {
           <Image
             src={EN}
             alt="English"
-            className={`w-4 h-4 ${
-              language === "en" ? "opacity-100" : "opacity-50"
+            className={`w-4  ${
+              language === "en" ? "opacity-100" : "opacity-30"
             }`}
           />
         </span>
@@ -42,8 +40,8 @@ export default function LanguageToggle() {
           <Image
             src={MM}
             alt="Burmese"
-            className={`w-4 h-4 ${
-              language === "my" ? "opacity-100" : "opacity-50"
+            className={`w-4  ${
+              language === "my" ? "opacity-100" : "opacity-30"
             }`}
           />
         </span>

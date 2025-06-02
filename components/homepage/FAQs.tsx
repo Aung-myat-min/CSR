@@ -34,13 +34,13 @@ export default function FAQs() {
   ];
 
   return (
-    <section className="py-24">
+    <section className="py-24 ">
       <div className="mx-auto w-11/12">
         <div className="mb-16">
           <h6 className="text-lg text-indigo-600 font-medium text-center mb-2">
             FAQs
           </h6>
-          <h2 className="text-4xl font-manrope text-center font-bold text-gray-900 leading-[3.25rem]">
+          <h2 className="text-4xl font-manrope text-center font-bold text-gray-900 dark:text-white leading-[3.25rem]">
             Frequently asked questions
           </h2>
         </div>
@@ -49,19 +49,26 @@ export default function FAQs() {
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className={`accordion py-8 px-6 border-b border-solid border-gray-200 transition-all duration-500 rounded-2xl hover:bg-indigo-50 ease-linear ${
-                activeIndex === index ? "bg-indigo-50" : ""
-              }`}
+              className={`accordion py-8 px-6 border-b border-solid transition-all duration-500 ease-linear
+                border-gray-200 dark:border-neutral-700
+                hover:bg-indigo-50 dark:hover:bg-neutral-800
+                ${
+                  activeIndex === index
+                    ? "bg-indigo-50 dark:bg-neutral-800"
+                    : ""
+                }`}
             >
               <button
                 onClick={() => toggleAccordion(index)}
-                className="accordion-toggle group inline-flex items-center justify-between leading-8 text-gray-900 w-full transition duration-500 text-left hover:text-indigo-600"
+                className="accordion-toggle group inline-flex items-center justify-between leading-8 w-full transition duration-500 text-left text-gray-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400"
                 aria-controls={`collapse-${index}`}
               >
                 <h5>{faq.question}</h5>
                 <svg
-                  className={`text-gray-500 transition duration-500 group-hover:text-indigo-600 ${
-                    activeIndex === index ? "rotate-180 text-indigo-600" : ""
+                  className={`text-gray-500 dark:text-gray-400 transition duration-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 ${
+                    activeIndex === index
+                      ? "rotate-180 text-indigo-600 dark:text-indigo-400"
+                      : ""
                   }`}
                   width="22"
                   height="22"
@@ -88,7 +95,7 @@ export default function FAQs() {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.5 }}
                   >
-                    <p className="text-base text-gray-900 leading-6">
+                    <p className="text-base text-gray-900 dark:text-gray-300 leading-6">
                       {faq.answer}
                     </p>
                   </motion.div>

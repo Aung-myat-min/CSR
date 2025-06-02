@@ -91,7 +91,7 @@ export default function NavigationBar() {
           <LanguageToggle />
           <div
             onClick={() => setOpen(!open)}
-            className="items-center flex cursor-pointer md:hidden"
+            className="items-center flex cursor-pointer md:hidden ms-3"
           >
             {open ? <RxCross2 /> : <RiMenu4Line />}
           </div>

@@ -21,6 +21,7 @@ export default function Page() {
         <Members />
       </ScrollOnAppear>
       <ScrollOnAppear>
+        {/* @ts-expect-error Server Component */}
         <Card />
       </ScrollOnAppear>
       <ScrollOnAppear>
